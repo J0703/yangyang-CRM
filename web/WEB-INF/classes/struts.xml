@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <!-- 将struts2中的对象创建交给spring完成 -->
+    <constant name="struts.objectFactory" value="spring"/>
+
+    <package name="crm_hr" extends="json-default">
+
+        <!-- 操作权限拦截器 -->
+        <interceptors>
+            <interceptor name="demoInterceptor" class="com.lanou.hr.Interceptor.DemoInterceptor"/>
+
+            <interceptor-stack name="myInterceptorStack">
+                <interceptor-ref name="demoInterceptor">
+                    <param name="excludeMethods">login,findDepartment,findPost,findStaff,staff_find</param>
+
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <!-- 给当前package中所有的action添加自定义拦截器 -->
+        <default-interceptor-ref name="myInterceptorStack"/>
+        <!-- 定义全局结果集 -->
+        <global-results>
+            <result name="permissions">/pages/error.jsp</result>
+        </global-results>
+        <!-- 登录 -->
+        <action name="login" class="com.lanou.hr.action.LoginAction" method="login">
+            <result name="success">/pages/frame.jsp</result>
+            <result name="input">/pages/login.jsp</result>
+        </action>
+        <!-- 修改密码 -->
+        <action name="updatePwd" class="com.lanou.hr.action.LoginAction" method="updatePwd">
+            <result name="success">pages/success.jsp</result>
+            <result name="input">pages/staff/updPwd.jsp</result>
+        </action>
+        <!-- 获取所有department -->
+        <action name="findDepartment" class="com.lanou.hr.action.DepartmentAction" method="findDepartment">
+            <result name="success">/pages/department/listDepartment.jsp</result>
+        </action>
+        <!-- 获取所有post -->
+        <action name="findPost" class="com.lanou.hr.action.PostAction" method="findPost">
+            <result name="success">/pages/post/listPost.jsp</result>
+        </action>
+        <!-- 获取所有staff -->
+        <action name="findStaff" class="com.lanou.hr.action.StaffAction" method="findStaff">
+            <result name="success">/pages/staff/listStaff.jsp</result>
+        </action>
+        <!-- 获取department的json -->
+        <action name="showDepartment" class="com.lanou.hr.action.DepartmentAction" method="findDepartment">
+            <result name="success" type="json">
+                <param name="root">departments</param>
+            </result>
+        </action>
+        <!-- 获取post的json -->
+        <action name="showPost" class="com.lanou.hr.action.PostAction" method="showPost">
+            <result name="success" type="json">
+                <param name="root">posts</param>
+            </result>
+        </action>
+        <!-- 高级查询staff -->
+        <action name="staff_find" class="com.lanou.hr.action.StaffAction" method="find">
+            <result name="success">/pages/staff/listStaff.jsp</result>
+        </action>
+        <!-- 表单回显department -->
+        <action name="findSingleDepartment" class="com.lanou.hr.action.DepartmentAction" method="findSingle">
+            <result name="success">/pages/department/addOrEditDepartment.jsp</result>
+        </action>
+        <!-- 更新或添加department -->
+        <action name="updateDepartment" class="com.lanou.hr.action.DepartmentAction" method="update">
+            <result name="success" type="chain">findDepartment</result>
+            <result name="input">/pages/department/addOrEditDepartment.jsp</result>
+        </action>
+        <!-- 表单回显post -->
+        <action name="findSinglePost" class="com.lanou.hr.action.PostAction" method="findSingle">
+            <result name="success">/pages/post/addOrEditPost.jsp</result>
+        </action>
+        <!-- 更新或添加post -->
+        <action name="updatePost" class="com.lanou.hr.action.PostAction" method="save_update">
+            <result name="success" type="chain">findPost</result>
+            <result name="input">/pages/post/addOrEditPost.jsp</result>
+        </action>
+        <!-- 表单回显staff -->
+        <action name="findSingleStaff" class="com.lanou.hr.action.StaffAction" method="findSingle">
+            <result name="success">/pages/staff/editStaff.jsp</result>
+        </action>
+        <!-- 更新staff -->
+        <action name="updateStaff" class="com.lanou.hr.action.StaffAction" method="update">
+            <result name="input">/pages/staff/editStaff.jsp</result>
+            <result name="success" type="chain">findStaff</result>
+        </action>
+        <!-- 添加staff -->
+        <action name="saveStaff" class="com.lanou.hr.action.StaffAction" method="save">
+            <result name="success" type="chain">findStaff</result>
+            <result name="input">/pages/staff/addStaff.jsp</result>
+        </action>
+    </package>
+</struts>
