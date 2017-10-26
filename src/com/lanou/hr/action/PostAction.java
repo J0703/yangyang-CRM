@@ -4,6 +4,8 @@ import com.lanou.hr.domain.Department;
 import com.lanou.hr.domain.Post;
 import com.lanou.hr.service.DepartmentService;
 import com.lanou.hr.service.PostService;
+import com.lanou.hr.util.PageBean;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,23 +35,26 @@ public class PostAction extends ActionSupport {
     private String postId;
     private Post post;
     private String postName;
+    private List<Department> departments;
 
 
+    private int pageNum;
+    private int pageSize = 3;
     /**
-     * 获取职务集合
-     *
-     * @return
+     * 分页查询获得post集合
      */
-    public String findPost() {
-        String hql = "from Post";
-        posts = postService.findAll(hql);
+    public String findByPage(){
+        if (pageNum == 0){
+            pageNum = 1;
+        }
+        String hql = "select count(*) from Post";
+        String hql1 = "from Post where 1=1";
+        PageBean<Post> pageBean = postService.findByPage(hql,hql1,pageNum,pageSize);
+        ActionContext.getContext().put("pageBean",pageBean);
         return SUCCESS;
     }
-
     /**
      * 通过部门id获取职务集合
-     *
-     * @return
      */
     public String showPost() {
         String hql = "from Post where depId=:depId";
@@ -59,35 +64,38 @@ public class PostAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * 通过职务id获取单个职务对象
+     */
     public String findSingle() {
-        Serializable id = postId;
-        post = postService.get(Post.class, id);
-        System.out.println(post.getDepartment());
+        departments = departmentService.findAll("from Department");
+        post = postService.get(Post.class, postId);
         return SUCCESS;
     }
 
     /**
      * 保存获得跟新post, 通过部门id获取department对象
-     * @return
      */
-    public String save_update(){
+    public String save_update() {
 
         Department department = departmentService.get(Department.class, depId);
-        if (StringUtils.isBlank(postId)){
+        if (StringUtils.isBlank(postId)) {
             Post post = new Post();
             post.setPostName(postName);
             post.setDepartment(department);
             postService.save(post);
-        }else {
-            Post post = new Post(postId,postName,department);
+        } else {
+            Post post = new Post(postId, postName, department);
             postService.update(post);
         }
         return SUCCESS;
     }
 
-
+    /**
+     * 添加职务表单回显
+     */
     public void validateSave_update() {
-        if (StringUtils.isBlank(postName)){
+        if (StringUtils.isBlank(postName)) {
             addActionError("输入的职务名不能为空");
         }
     }
@@ -131,4 +139,21 @@ public class PostAction extends ActionSupport {
     public void setPostName(String postName) {
         this.postName = postName;
     }
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
 }

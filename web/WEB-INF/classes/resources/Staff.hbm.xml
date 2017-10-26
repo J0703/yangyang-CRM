@@ -17,5 +17,11 @@
                      column="postId"
                      lazy="false"
                      not-null="false"/>
+        <many-to-one name="department"
+                     cascade="save-update"
+                     class="com.lanou.hr.domain.Department"
+                     column="depId"
+                     lazy="false"
+                     not-null="false"/>
     </class>
 </hibernate-mapping>

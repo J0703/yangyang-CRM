@@ -65,17 +65,22 @@
             <td width="10%">所属部门：</td>
             <td width="20%">
                 <select name="depId" id="departmentId">
-                    <option value='<s:property value="staff.post.department.depId"/>'>
-                        ---<s:property value="staff.post.department.depName"/>---</option>
-
+                    <s:iterator value="departments" var="depart">
+                        <option value='${depart.depId}'
+                                <c:if test="${depart.depId eq staff.post.department.depId}">selected="selected"</c:if>>
+                            ---${depart.depName}---
+                        </option>
+                    </s:iterator>
                 </select>
 
             </td>
             <td width="8%">职务：</td>
             <td width="62%">
                 <select name="postId" id="postId">
-                    <option value='<s:property value="staff.post.postId"/>'>---<s:property
-                            value="staff.post.postName"/>---</option>
+
+                    <option value='<s:property value="staff.post.postId"/><c:if test="${empty staff}">-1</c:if>'>---<s:property
+                            value="staff.post.postName"/><c:if test="${empty staff}">请选择</c:if>---
+                    </option>
 
                 </select>
             </td>
@@ -83,7 +88,7 @@
         <tr>
             <td width="10%">入职时间：</td>
             <td width="20%">
-                <input type="text" name="onDutyDate" value="2012-02-12" readonly="readonly"
+                <input type="text" name="onDutyDate" value="<s:property value="staff.onDutyDate"/>" readonly="readonly"
                        onfocus="c.showMoreDay=true; c.show(this);"/>
             </td>
             <td width="8%"></td>
@@ -95,22 +100,19 @@
 
 <script>
     $(function () {
+        <c:if test="${empty departments}">
         $.post("${pageContext.request.contextPath}/showDepartment.action", null,
                 function (data) {
-                    var _html = '<option value="<s:property value="staff.post.department.depId"/>">---<s:property
-                        value="staff.post.department.depName"/>--- </option>'
+                    var _html = "<option value='-1'>---请选择---</option>";
                     $.each(data, function (index, value) {
                         _html += '<option value="' + value.depId + '">---' + value.depName + '---</option>'
                     });
                     $("#departmentId").html(_html);
                 }, "json");
+        </c:if>
 
-        // 页面加载
-
-        // 值发生改变调用方法
         $("#departmentId").change(function () {
             $.post("${pageContext.request.contextPath}/showPost.action",
-                    // 传递did参数
                     {
                         depId: $("#departmentId").val()
                     },

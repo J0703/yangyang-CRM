@@ -32,7 +32,7 @@
                 <prop key="hibernate.format_sql"/>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.current_session_context_class">thread</prop>
+                <!--<prop key="hibernate.current_session_context_class">thread</prop>-->
             </props>
         </property>
 
@@ -41,6 +41,7 @@
         <property name="mappingLocations" value="classpath:resources/*.hbm.xml"/>
 
     </bean>
+
 
     <!-- 3.配置事物对象(切面) -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
@@ -60,12 +61,12 @@
     <!-- 5.配置spring aop -->
     <aop:config>
         <!-- 配置切入点 -->
-        <!--<aop:pointcut id="pointcut" expression="execution(* com.lanou.service.impl.*.*(..))"/>-->
         <aop:pointcut id="pointcut" expression="execution(* com.lanou.*.service.impl.*.*(..))"/>
         <!-- 配置通知-->
         <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
     </aop:config>
-    <!-- 配置到层 -->
+
+    <!-- 配置dao层 -->
     <bean id="departmentDao" class="com.lanou.hr.dao.impl.DepartmentDaoImpl">
         <!-- 给dao层实现类中的sessionFactory进行赋值 -->
         <property name="sessionFactory" ref="sessionFactory"/>
@@ -78,6 +79,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-
-
+    <bean id="baseDao" class="com.lanou.hr.dao.impl.BaseDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

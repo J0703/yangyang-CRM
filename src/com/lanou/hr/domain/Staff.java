@@ -14,6 +14,7 @@ public class Staff {
     private String gender;
     private Date onDutyDate;
     private Post post;
+    private Department department;
 
 
     public Staff() {
@@ -116,4 +117,11 @@ public class Staff {
         this.post = post;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 }

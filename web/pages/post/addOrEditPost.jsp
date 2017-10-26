@@ -43,9 +43,12 @@
         <tr>
             <td>选择部门：</td>
             <td><select name="depId" id="departmentId">
-                <option value="<s:property value="post.department.depId"/>">---<s:property
-                        value="post.department.depName"/>---
-                </option>
+                <option value="-1">---请选择---</option>
+                <s:iterator value="departments" var="depart">
+                    <option value="${depart.depId}" <c:if test="${depart.depId eq post.department.depId}">selected="selected"</c:if>>
+                        ---${depart.depName}---</option>
+                </s:iterator>
+
             </select>
             </td>
             <td>职务：</td>
@@ -57,21 +60,18 @@
     <s:actionerror/>
 </font>
 <script>
-
-    $(function () {
-
-        $.post("${pageContext.request.contextPath}/showDepartment.action", null,
-                function (data) {
-                    var _html = '<option value="<s:property value="post.department.depId"/>">---<s:property
-                        value="post.department.depName"/>--- </option>'
-                    $.each(data, function (index, value) {
-                        _html += '<option value="' + value.depId + '">---' + value.depName + '---</option>'
-                    });
-                    $("#departmentId").html(_html);
-                }, "json");
-    })
-
-
+$(function () {
+    <c:if test="${empty departments}">
+    $.post("${pageContext.request.contextPath}/showDepartment.action", null,
+            function (data) {
+                var _html = "<option value='-1'>---请选择部门---</option>";
+                $.each(data, function (index, value) {
+                    _html += '<option value="' + value.depId + '">' + value.depName + '</option>'
+                });
+                $("#departmentId").html(_html);
+            }, "json");
+    </c:if>
+});
 </script>
 </body>
 </html>

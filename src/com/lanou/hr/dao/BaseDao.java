@@ -51,4 +51,8 @@ public interface BaseDao<T> {
      */
     void save(T t);
 
+    int getTotalRecord(String hql);
+
+    List<T> findALL(String hql,int startIndex, int pageSize);
+
 }

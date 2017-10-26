@@ -2,8 +2,11 @@ package com.lanou.hr.action;
 
 import com.lanou.hr.domain.Department;
 import com.lanou.hr.service.DepartmentService;
+import com.lanou.hr.util.PageBean;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -25,10 +28,24 @@ public class DepartmentAction extends ActionSupport {
     private Department department;
     private String depName;
     private String depId;
+    private int pageNum;
+    private int pageSize = 3;
+    /**
+     * 条件查询获得department集合
+     */
+    public String findByPage(){
+        if (pageNum == 0){
+            pageNum = 1;
+        }
+        String hql = "select count(*) from Department";
+        String hql1 = "from Department where 1=1";
+        PageBean<Department> pageBean = departmentService.findByPage(hql,hql1,pageNum,pageSize);
+        ActionContext.getContext().put("pageBean",pageBean);
+        return SUCCESS;
+    }
 
     /**
-     * 获得department集合
-     *
+     * 获取所有部门
      * @return
      */
     public String findDepartment() {
@@ -39,32 +56,29 @@ public class DepartmentAction extends ActionSupport {
 
     /**
      * 通过id获取
-     *
-     * @return
      */
     public String findSingle() {
-        Serializable id = depId;
-        department = departmentService.get(Department.class, id);
+        department = departmentService.get(Department.class, depId);
         return SUCCESS;
     }
 
     /**
      * 更新或添加
-     *
-     * @return
      */
     public String update() {
         if (StringUtils.isBlank(depId)) {
             Department department = new Department(depName);
             departmentService.save(department);
-        }else {
+        } else {
             Department department = new Department(depId, depName);
             departmentService.update(department);
         }
         return SUCCESS;
     }
 
-
+    /**
+     * 添加部门表单校验
+     */
     public void validateUpdate() {
         if (StringUtils.isBlank(depName)) {
             addActionError("输入的部门名称不能为空");
@@ -102,4 +116,13 @@ public class DepartmentAction extends ActionSupport {
     public void setDepId(String depId) {
         this.depId = depId;
     }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
 }

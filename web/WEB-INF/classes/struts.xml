@@ -40,17 +40,30 @@
             <result name="input">pages/staff/updPwd.jsp</result>
         </action>
         <!-- 获取所有department -->
-        <action name="findDepartment" class="com.lanou.hr.action.DepartmentAction" method="findDepartment">
+        <!--<action name="findDepartment" class="com.lanou.hr.action.DepartmentAction" method="findDepartment">-->
+            <!--<result name="success">/pages/department/listDepartment.jsp</result>-->
+        <!--</action>-->
+        <!-- 分页查询department -->
+        <action name="findDepartment" class="com.lanou.hr.action.DepartmentAction" method="findByPage">
             <result name="success">/pages/department/listDepartment.jsp</result>
         </action>
         <!-- 获取所有post -->
-        <action name="findPost" class="com.lanou.hr.action.PostAction" method="findPost">
+        <!--<action name="findPost" class="com.lanou.hr.action.PostAction" method="findPost">-->
+            <!--<result name="success">/pages/post/listPost.jsp</result>-->
+        <!--</action>-->
+        <!-- 分页查询post -->
+        <action name="findPost" class="com.lanou.hr.action.PostAction" method="findByPage">
             <result name="success">/pages/post/listPost.jsp</result>
         </action>
         <!-- 获取所有staff -->
-        <action name="findStaff" class="com.lanou.hr.action.StaffAction" method="findStaff">
+        <!--<action name="findStaff" class="com.lanou.hr.action.StaffAction" method="findStaff">-->
+            <!--<result name="success">/pages/staff/listStaff.jsp</result>-->
+        <!--</action>-->
+        <!-- 分页查询staff -->
+        <action name="findStaff" class="com.lanou.hr.action.StaffAction" method="findByPage">
             <result name="success">/pages/staff/listStaff.jsp</result>
         </action>
+
         <!-- 获取department的json -->
         <action name="showDepartment" class="com.lanou.hr.action.DepartmentAction" method="findDepartment">
             <result name="success" type="json">

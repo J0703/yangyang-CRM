@@ -27,6 +27,9 @@ public class LoginAction extends ActionSupport {
     private String reNewPassword;
 
 
+    /**
+     * 登录
+     */
     public String login() {
         String hql = "from Staff where loginName =:loginName";
         Map<String, Object> params = new HashMap<>();
@@ -40,7 +43,7 @@ public class LoginAction extends ActionSupport {
         params1.put("loginName", loginName);
         params1.put("loginPwd", loginPwd);
         Staff staff = staffService.findSingle(hql1, params1);
-        ServletActionContext.getRequest().getServletContext().setAttribute("staff", staff);
+        ServletActionContext.getRequest().getServletContext().setAttribute("adminStaff", staff);
         if (staff == null) {
             addActionError("您输入的密码有误");
             return INPUT;
@@ -48,20 +51,21 @@ public class LoginAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * 修改密码
+     */
     public String updatePwd() {
         Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("staff");
-        System.out.println(loginPwd);
-        System.out.println(newPassword);
-        System.out.println(reNewPassword);
         staff.setLoginPwd(newPassword);
         staffService.update(staff);
         addFieldError("msg", "密码修改成功, 请重新登录");
         return SUCCESS;
     }
 
-
+    /**
+     * 修改密码表单校验
+     */
     public void validateUpdatePwd() {
-
         Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("staff");
         if (StringUtils.isBlank(newPassword) || StringUtils.isBlank(reNewPassword) || StringUtils.isBlank(loginPwd)) {
             addActionError("输入的密码不能为空");
@@ -80,6 +84,9 @@ public class LoginAction extends ActionSupport {
 
     }
 
+    /**
+     * 登录表单校验
+     */
     public void validateLogin() {
         if (StringUtils.isBlank(loginName) || StringUtils.isBlank(loginPwd)) {
             addActionError("用户名或密码不能为空");

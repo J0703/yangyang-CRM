@@ -6,6 +6,8 @@ import com.lanou.hr.domain.Staff;
 import com.lanou.hr.service.DepartmentService;
 import com.lanou.hr.service.PostService;
 import com.lanou.hr.service.StaffService;
+import com.lanou.hr.util.PageBean;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +32,11 @@ public class StaffAction extends ActionSupport {
     @Autowired
     @Qualifier("postService")
     private PostService postService;
-
+    @Autowired
+    @Qualifier("departmentService")
+    private DepartmentService departmentService;
 
     private List<Staff> staffs;
-
     private String depId;
     private String postId;
     private String staffName;
@@ -43,11 +46,28 @@ public class StaffAction extends ActionSupport {
     private String loginPwd;
     private Date onDutyDate;
     private Staff staff;
+    private List<Department> departments;
+
+    private int pageNum;
+    private int pageSize = 3;
+
+    /**
+     * 获得department集合
+     */
+
+    public String findByPage() {
+        if (pageNum == 0) {
+            pageNum = 1;
+        }
+        String hql = "select count(*) from Staff";
+        String hql1 = "from Staff where 1=1";
+        PageBean<Staff> pageBean = staffService.findByPage(hql, hql1, pageNum, pageSize);
+        ActionContext.getContext().put("pageBean", pageBean);
+        return SUCCESS;
+    }
 
     /**
      * 获取员工集合
-     *
-     * @return
      */
     public String findStaff() {
         String hql = "from Staff";
@@ -57,51 +77,34 @@ public class StaffAction extends ActionSupport {
 
     /**
      * 高级查询
-     *
-     * @return
      */
     public String find() {
-        if (postId.equals("-1") && depId.equals("-1")) {
-            findStaff();
-            return SUCCESS;
+        List<Object> params = new ArrayList<>();
+        params.add(staffName);
+        params.add(depId);
+        params.add(postId);
+        if (pageNum == 0) {
+            pageNum = 1;
         }
-        if (postId.equals("-1")) {
-            Map<String, Object> params = new HashMap<>();
-            params.put("depId", depId);
-            List<Post> posts = postService.find("from Post where depId like :depId", params);
-            staffs = new ArrayList<>();
-            for (Post post : posts) {
-                String postId = post.getPostId();
-                params.remove("depId");
-                params.put("postId", postId);
-                List<Staff> staffList = staffService.find(params);
-                staffs.addAll(staffList);
-            }
-        } else {
-            Map<String, Object> params = new HashMap<>();
-            params.put("postId", postId);
-            if (staffName.trim().length() > 0) {
-                params.put("staffName", staffName);
-            }
-            staffs = staffService.find(params);
-        }
+        String hql = "select count(*) from Staff where 1=1";
+        String hql1 = "from Staff where 1=1";
+        PageBean<Staff> pageBean = staffService.findByCD(hql, hql1, params, pageNum, pageSize);
+        ActionContext.getContext().put("pageBean", pageBean);
         return SUCCESS;
     }
 
+
     /**
      * 表单回显
-     *
-     * @return
      */
     public String findSingle() {
         staff = staffService.get(Staff.class, staffId);
+        departments = departmentService.findAll("from Department");
         return SUCCESS;
     }
 
     /**
      * 更新staff
-     *
-     * @return
      */
     public String update() {
         Date date = onDutyDate;
@@ -115,15 +118,24 @@ public class StaffAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * 添加staff
+     */
     public String save() {
         Date date = onDutyDate;
         Post post = postService.get(Post.class, postId);
+        Department department = departmentService.get(Department.class, depId);
         Staff staff = new Staff(loginName, loginPwd, staffName, gender, date);
+        post.setDepartment(null);
         staff.setPost(post);
+        staff.setDepartment(department);
         staffService.save(staff);
         return SUCCESS;
     }
 
+    /**
+     * 修改员工表单校验
+     */
     public void validateUpdate() {
         if (StringUtils.isBlank(loginName)) {
             addActionError("登录名不能为空");
@@ -139,7 +151,9 @@ public class StaffAction extends ActionSupport {
         }
     }
 
-
+    /**
+     * 添加员工表单校验
+     */
     public void validateSave() {
         if (StringUtils.isBlank(loginName)) {
             addActionError("登录名不能为空");
@@ -236,4 +250,21 @@ public class StaffAction extends ActionSupport {
     public void setOnDutyDate(Date onDutyDate) {
         this.onDutyDate = onDutyDate;
     }
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
 }

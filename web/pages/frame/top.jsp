@@ -97,7 +97,7 @@
 								<tr>
 									<td width="51" valign="middle">
 										<font color="#FFFFFF">
-											欢迎您： ${staff.staffName}
+											欢迎您： ${adminStaff.staffName}
 										</font>
 									</td>
 								</tr>

@@ -10,5 +10,7 @@ import java.util.Map;
  */
 public interface StaffDao extends BaseDao<Staff>{
 
-    List<Staff> findByCd(Map<String, Object> params);
+    int getTotalRecordStaff(String hql, List<Object> params);
+
+    List<Staff> findByCD(String hql1, List<Object> params, int startIndex, int pageSize);
 }

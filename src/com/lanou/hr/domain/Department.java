@@ -1,6 +1,5 @@
 package com.lanou.hr.domain;
 
-import java.util.Set;
 
 /**
  * Created by dllo on 17/10/24.
@@ -12,6 +11,8 @@ public class Department {
 
     public Department() {
     }
+
+
 
     public Department(String depId, String depName) {
         this.depId = depId;
@@ -28,7 +29,6 @@ public class Department {
                 "depId='" + depId + '\'' +
                 ", depName='" + depName + '\'' +
                 '}';
- 
     }
 
     public String getDepId() {
@@ -46,6 +46,5 @@ public class Department {
     public void setDepName(String depName) {
         this.depName = depName;
     }
-
 
 }

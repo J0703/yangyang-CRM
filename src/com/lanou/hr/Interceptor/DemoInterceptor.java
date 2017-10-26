@@ -11,7 +11,7 @@ import org.apache.struts2.ServletActionContext;
 public class DemoInterceptor extends MethodFilterInterceptor {
     @Override
     protected String doIntercept(ActionInvocation actionInvocation) throws Exception {
-        Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("staff");
+        Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("adminStaff");
         if (!staff.getPost().getPostName().equals("人事总监")){
             return "permissions";
         }
