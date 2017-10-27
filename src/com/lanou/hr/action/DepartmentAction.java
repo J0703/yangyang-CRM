@@ -5,6 +5,7 @@ import com.lanou.hr.service.DepartmentService;
 import com.lanou.hr.util.PageBean;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,14 @@ import java.util.List;
  * Created by dllo on 17/10/24.
  */
 @Controller("departmentAction")
-public class DepartmentAction extends ActionSupport {
+public class DepartmentAction extends ActionSupport implements ModelDriven<Department>{
 
     @Autowired
     @Qualifier("departmentService")
     private DepartmentService departmentService;
     private List<Department> departments;
+    private Department departmentDriven;
     private Department department;
-    private String depName;
-    private String depId;
     private int pageNum;
     private int pageSize = 3;
     /**
@@ -37,9 +37,7 @@ public class DepartmentAction extends ActionSupport {
         if (pageNum == 0){
             pageNum = 1;
         }
-        String hql = "select count(*) from Department";
-        String hql1 = "from Department where 1=1";
-        PageBean<Department> pageBean = departmentService.findByPage(hql,hql1,pageNum,pageSize);
+        PageBean<Department> pageBean = departmentService.findByPage(pageNum,pageSize);
         ActionContext.getContext().put("pageBean",pageBean);
         return SUCCESS;
     }
@@ -49,8 +47,7 @@ public class DepartmentAction extends ActionSupport {
      * @return
      */
     public String findDepartment() {
-        String hql = "from Department";
-        departments = departmentService.findAll(hql);
+        departments = departmentService.findAll();
         return SUCCESS;
     }
 
@@ -58,7 +55,7 @@ public class DepartmentAction extends ActionSupport {
      * 通过id获取
      */
     public String findSingle() {
-        department = departmentService.get(Department.class, depId);
+        department = departmentService.get(Department.class, departmentDriven.getDepId());
         return SUCCESS;
     }
 
@@ -66,12 +63,12 @@ public class DepartmentAction extends ActionSupport {
      * 更新或添加
      */
     public String update() {
-        if (StringUtils.isBlank(depId)) {
-            Department department = new Department(depName);
-            departmentService.save(department);
+        if (StringUtils.isBlank(departmentDriven.getDepId())) {
+            Department department1 = new Department(departmentDriven.getDepName());
+            departmentService.save(department1);
         } else {
-            Department department = new Department(depId, depName);
-            departmentService.update(department);
+            Department department2 = new Department(departmentDriven.getDepId(), departmentDriven.getDepName());
+            departmentService.update(department2);
         }
         return SUCCESS;
     }
@@ -80,7 +77,7 @@ public class DepartmentAction extends ActionSupport {
      * 添加部门表单校验
      */
     public void validateUpdate() {
-        if (StringUtils.isBlank(depName)) {
+        if (StringUtils.isBlank(departmentDriven.getDepName())) {
             addActionError("输入的部门名称不能为空");
         }
     }
@@ -93,28 +90,12 @@ public class DepartmentAction extends ActionSupport {
         this.departments = departments;
     }
 
-    public String getDepName() {
-        return depName;
-    }
-
-    public void setDepName(String depName) {
-        this.depName = depName;
-    }
-
     public Department getDepartment() {
         return department;
     }
 
     public void setDepartment(Department department) {
         this.department = department;
-    }
-
-    public String getDepId() {
-        return depId;
-    }
-
-    public void setDepId(String depId) {
-        this.depId = depId;
     }
 
     public int getPageNum() {
@@ -125,4 +106,9 @@ public class DepartmentAction extends ActionSupport {
         this.pageNum = pageNum;
     }
 
+    @Override
+    public Department getModel() {
+        departmentDriven = new Department();
+        return departmentDriven;
+    }
 }

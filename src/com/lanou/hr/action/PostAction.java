@@ -7,12 +7,12 @@ import com.lanou.hr.service.PostService;
 import com.lanou.hr.util.PageBean;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by dllo on 17/10/25.
  */
 @Controller("postAction")
-public class PostAction extends ActionSupport {
+public class PostAction extends ActionSupport implements ModelDriven<Post>{
 
     @Autowired
     @Qualifier("postService")
@@ -32,9 +32,8 @@ public class PostAction extends ActionSupport {
     private DepartmentService departmentService;
     private List<Post> posts;
     private String depId;
-    private String postId;
     private Post post;
-    private String postName;
+    private Post postDriven;
     private List<Department> departments;
 
 
@@ -47,9 +46,7 @@ public class PostAction extends ActionSupport {
         if (pageNum == 0){
             pageNum = 1;
         }
-        String hql = "select count(*) from Post";
-        String hql1 = "from Post where 1=1";
-        PageBean<Post> pageBean = postService.findByPage(hql,hql1,pageNum,pageSize);
+        PageBean<Post> pageBean = postService.findByPage(pageNum,pageSize);
         ActionContext.getContext().put("pageBean",pageBean);
         return SUCCESS;
     }
@@ -57,10 +54,9 @@ public class PostAction extends ActionSupport {
      * 通过部门id获取职务集合
      */
     public String showPost() {
-        String hql = "from Post where depId=:depId";
         Map<String, Object> params = new HashMap<>();
         params.put("depId", depId);
-        posts = postService.find(hql, params);
+        posts = postService.find(params);
         return SUCCESS;
     }
 
@@ -68,8 +64,8 @@ public class PostAction extends ActionSupport {
      * 通过职务id获取单个职务对象
      */
     public String findSingle() {
-        departments = departmentService.findAll("from Department");
-        post = postService.get(Post.class, postId);
+        departments = departmentService.findAll();
+        post = postService.get(Post.class, postDriven.getPostId());
         return SUCCESS;
     }
 
@@ -79,14 +75,14 @@ public class PostAction extends ActionSupport {
     public String save_update() {
 
         Department department = departmentService.get(Department.class, depId);
-        if (StringUtils.isBlank(postId)) {
-            Post post = new Post();
-            post.setPostName(postName);
-            post.setDepartment(department);
-            postService.save(post);
+        if (StringUtils.isBlank(postDriven.getPostId())) {
+            Post post1 = new Post();
+            post1.setPostName(postDriven.getPostName());
+            post1.setDepartment(department);
+            postService.save(post1);
         } else {
-            Post post = new Post(postId, postName, department);
-            postService.update(post);
+            Post post2 = new Post(postDriven.getPostId(), postDriven.getPostName(), department);
+            postService.update(post2);
         }
         return SUCCESS;
     }
@@ -95,7 +91,7 @@ public class PostAction extends ActionSupport {
      * 添加职务表单回显
      */
     public void validateSave_update() {
-        if (StringUtils.isBlank(postName)) {
+        if (StringUtils.isBlank(postDriven.getPostName())) {
             addActionError("输入的职务名不能为空");
         }
     }
@@ -116,13 +112,6 @@ public class PostAction extends ActionSupport {
         this.depId = depId;
     }
 
-    public String getPostId() {
-        return postId;
-    }
-
-    public void setPostId(String postId) {
-        this.postId = postId;
-    }
 
     public Post getPost() {
         return post;
@@ -130,14 +119,6 @@ public class PostAction extends ActionSupport {
 
     public void setPost(Post post) {
         this.post = post;
-    }
-
-    public String getPostName() {
-        return postName;
-    }
-
-    public void setPostName(String postName) {
-        this.postName = postName;
     }
 
     public List<Department> getDepartments() {
@@ -156,4 +137,9 @@ public class PostAction extends ActionSupport {
         this.pageNum = pageNum;
     }
 
+    @Override
+    public Post getModel() {
+        postDriven = new Post();
+        return postDriven;
+    }
 }

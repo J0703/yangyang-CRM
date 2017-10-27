@@ -1,0 +1,28 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.lanou.teach.domain.Classes" table="crm_classes">
+        <id name="classId">
+            <generator class="uuid"/>
+        </id>
+        <many-to-one name="course_type"
+                     column="lessonTypeId"
+                     cascade="save-update"
+                     class="com.lanou.teach.domain.Course_Type"
+                     lazy="false"
+                     not-null="true"/>
+        <property name="name"/>
+        <property name="beginTime"/>
+        <property name="endTime"/>
+        <property name="status"/>
+        <property name="totalCount"/>
+        <property name="upgradeCount"/>
+        <property name="changeCount"/>
+        <property name="runoffCount"/>
+        <property name="remark"/>
+        <property name="uploadPath"/>
+        <property name="uploadFileName"/>
+        <property name="uploadTime"/>
+    </class>
+</hibernate-mapping>

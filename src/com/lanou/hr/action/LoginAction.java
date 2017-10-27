@@ -3,6 +3,7 @@ package com.lanou.hr.action;
 import com.lanou.hr.domain.Staff;
 import com.lanou.hr.service.StaffService;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,14 @@ import java.util.Map;
  * Created by dllo on 17/10/25.
  */
 @Controller("loginAction")
-public class LoginAction extends ActionSupport {
+public class LoginAction extends ActionSupport implements ModelDriven<Staff>{
 
     @Autowired
     @Qualifier("staffService")
     private StaffService staffService;
     private String loginName;
     private String loginPwd;
+    private Staff staff;
     private String newPassword;
     private String reNewPassword;
 
@@ -31,18 +33,14 @@ public class LoginAction extends ActionSupport {
      * 登录
      */
     public String login() {
-        String hql = "from Staff where loginName =:loginName";
         Map<String, Object> params = new HashMap<>();
         params.put("loginName", loginName);
-        if (staffService.findSingle(hql, params) == null) {
+        if (staffService.findSingle(params) == null) {
             addActionError("用户不存在");
             return INPUT;
         }
-        String hql1 = "from Staff where loginName =:loginName and loginPwd =:loginPwd";
-        Map<String, Object> params1 = new HashMap<>();
-        params1.put("loginName", loginName);
-        params1.put("loginPwd", loginPwd);
-        Staff staff = staffService.findSingle(hql1, params1);
+        params.put("loginPwd", loginPwd);
+        Staff staff = staffService.login(params);
         ServletActionContext.getRequest().getServletContext().setAttribute("adminStaff", staff);
         if (staff == null) {
             addActionError("您输入的密码有误");
@@ -123,5 +121,11 @@ public class LoginAction extends ActionSupport {
 
     public void setReNewPassword(String reNewPassword) {
         this.reNewPassword = reNewPassword;
+    }
+
+    @Override
+    public Staff getModel() {
+        staff = new Staff();
+        return staff;
     }
 }
