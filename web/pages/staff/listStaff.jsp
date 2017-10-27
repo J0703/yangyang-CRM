@@ -87,7 +87,7 @@
             <td align="center">${staff.staffName}</td>
             <td align="center">${staff.gender}</td>
             <td align="center">${staff.onDutyDate}</td>
-            <td align="center">${staff.post.department.depName}</td>
+            <td align="center">${staff.department.depName}</td>
             <td align="center">${staff.post.postName}</td>
             <td width="7%" align="center">
                 <a href="${pageContext.request.contextPath}/findSingleStaff.action?staffId=${staff.staffId}"><img
@@ -102,7 +102,7 @@
             <td align="center">${staff.staffName}</td>
             <td align="center">${staff.gender}</td>
             <td align="center">${staff.onDutyDate}</td>
-            <td align="center">${staff.post.department.depName}</td>
+            <td align="center">${staff.department.depName}</td>
             <td align="center">${staff.post.postName}</td>
             <td width="7%" align="center">
                 <a href="${pageContext.request.contextPath}/findSingleStaff.action?staffId=${staff.staffId}"><img
@@ -145,7 +145,7 @@
         // 页面加载
         $.post("${pageContext.request.contextPath}/showDepartment.action", null,
                 function (data) {
-                    var _html = "<option value='-1'>---请选择部门---</option>";
+                    var _html = "<option value='-1'>---请选择---</option>";
                     $.each(data, function (index, value) {
                         _html += '<option value="' + value.depId + '">' + value.depName + '</option>'
                     });
@@ -160,7 +160,7 @@
                         depId: $("#departmentId").val()
                     },
                     function (data) {
-                        var _html = "<option value='-1'>---请选择职务---</option>";
+                        var _html = "<option value='-1'>----请选择----</option>";
                         $.each(data, function (index, value) {
                             _html += '<option value="' + value.postId + '">' + value.postName + '</option>'
                         });

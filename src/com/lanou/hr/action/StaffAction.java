@@ -47,6 +47,7 @@ public class StaffAction extends ActionSupport {
     private Date onDutyDate;
     private Staff staff;
     private List<Department> departments;
+    private List<Post> posts;
 
     private int pageNum;
     private int pageSize = 3;
@@ -100,6 +101,10 @@ public class StaffAction extends ActionSupport {
     public String findSingle() {
         staff = staffService.get(Staff.class, staffId);
         departments = departmentService.findAll("from Department");
+        String hql = "from Post where depId=:depId";
+        Map<String, Object> params = new HashMap<>();
+        params.put("depId", staff.getDepartment().getDepId());
+        posts = postService.find(hql, params);
         return SUCCESS;
     }
 
@@ -109,12 +114,17 @@ public class StaffAction extends ActionSupport {
     public String update() {
         Date date = onDutyDate;
         Staff staff = new Staff(staffId, loginName, loginPwd, staffName, gender, date);
+        if (!depId.equals("-1")){
+            Department department = departmentService.get(Department.class, depId);
+            staff.setDepartment(department);
+        }
         if (!postId.equals("-1")) {
+            staff.setDepartment(null);
             Post post = postService.get(Post.class, postId);
             staff.setPost(post);
+            staff.setDepartment(post.getDepartment());
         }
         staffService.update(staff);
-        System.out.println();
         return SUCCESS;
     }
 
@@ -124,11 +134,9 @@ public class StaffAction extends ActionSupport {
     public String save() {
         Date date = onDutyDate;
         Post post = postService.get(Post.class, postId);
-        Department department = departmentService.get(Department.class, depId);
         Staff staff = new Staff(loginName, loginPwd, staffName, gender, date);
-        post.setDepartment(null);
         staff.setPost(post);
-        staff.setDepartment(department);
+        staff.setDepartment(post.getDepartment());
         staffService.save(staff);
         return SUCCESS;
     }
@@ -267,4 +275,11 @@ public class StaffAction extends ActionSupport {
         this.pageNum = pageNum;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
 }

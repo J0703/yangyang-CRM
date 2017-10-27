@@ -78,9 +78,15 @@
             <td width="62%">
                 <select name="postId" id="postId">
 
-                    <option value='<s:property value="staff.post.postId"/><c:if test="${empty staff}">-1</c:if>'>---<s:property
-                            value="staff.post.postName"/><c:if test="${empty staff}">请选择</c:if>---
-                    </option>
+                    <c:if test="${empty posts}">
+                        <option value="-1">----请选择----</option>
+                    </c:if>
+                    <s:iterator value="posts" var="post">
+                        <option value='${post.postId}'
+                                <c:if test="${post.postId eq staff.post.postId}">selected="selected"</c:if>>
+                            ---${post.postName}---
+                        </option>
+                    </s:iterator>
 
                 </select>
             </td>
@@ -117,7 +123,7 @@
                         depId: $("#departmentId").val()
                     },
                     function (data) {
-                        var _html = "<option value='-1'>---请选择---</option>";
+                        var _html = "<option value='-1'>----请选择----</option>";
                         $.each(data, function (index, value) {
                             _html += '<option value="' + value.postId + '">---' + value.postName + '---</option>'
                         });

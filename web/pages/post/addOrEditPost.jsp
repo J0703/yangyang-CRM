@@ -64,7 +64,7 @@ $(function () {
     <c:if test="${empty departments}">
     $.post("${pageContext.request.contextPath}/showDepartment.action", null,
             function (data) {
-                var _html = "<option value='-1'>---请选择部门---</option>";
+                var _html = "<option value='-1'>---请选择---</option>";
                 $.each(data, function (index, value) {
                     _html += '<option value="' + value.depId + '">' + value.depName + '</option>'
                 });

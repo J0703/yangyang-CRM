@@ -1,6 +1,5 @@
 package com.lanou.hr.domain;
 
-import java.util.Set;
 
 /**
  * Created by dllo on 17/10/24.

@@ -56,14 +56,14 @@
             <td width="10%">所属部门：</td>
             <td width="20%">
                 <select name="depId" id="departmentId">
-                    <option value='-1'>---请选择部门---</option>
+                    <option value='-1'>---请选择---</option>
                 </select>
 
             </td>
             <td width="8%">职务：</td>
             <td width="62%">
                 <select id="postId" name="postId">
-                    <option value='-1'>---请选择职务---</option>
+                    <option value='-1'>----请选择----</option>
                 </select>
             </td>
         </tr>
@@ -85,7 +85,7 @@
         // 页面加载
         $.post("${pageContext.request.contextPath}/showDepartment.action", null,
                 function (data) {
-                    var _html = "<option value='-1'>---请选择部门---</option>";
+                    var _html = "<option value='-1'>---请选择---</option>";
                     $.each(data, function (index, value) {
                         _html += '<option value="' + value.depId + '">' + value.depName + '</option>'
                     });
@@ -100,7 +100,7 @@
                         depId: $("#departmentId").val()
                     },
                     function (data) {
-                        var _html = "<option value='-1'>---请选择职务---</option>";
+                        var _html = "<option value='-1'>----请选择----</option>";
                         $.each(data, function (index, value) {
                             _html += '<option value="' + value.postId + '">' + value.postName + '</option>'
                         });
