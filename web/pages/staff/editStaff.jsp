@@ -37,7 +37,7 @@
     </tr>
 </table>
 
-<form action="${pageContext.request.contextPath}/updateStaff.action" method="post">
+<form action="${pageContext.request.contextPath}/hr/updateStaff.action" method="post">
 
     <input type="hidden" name="staffId" value="<s:property value="staff.staffId"/>"/>
 
@@ -46,7 +46,7 @@
             <td>登录名：</td>
             <td><input type="text" name="loginName" value="<s:property value="staff.loginName"/>"/></td>
             <td>密码：</td>
-            <td><input type="text" name="loginPwd" value="<s:property value="staff.loginPwd"/>"/></td>
+            <td><input type="password" name="loginPwd" value="<s:property value="staff.loginPwd"/>"/></td>
         </tr>
         <tr>
             <td>姓名：</td>
@@ -107,7 +107,7 @@
 <script>
     $(function () {
         <c:if test="${empty departments}">
-        $.post("${pageContext.request.contextPath}/showDepartment.action", null,
+        $.post("${pageContext.request.contextPath}/hr/showDepartment.action", null,
                 function (data) {
                     var _html = "<option value='-1'>---请选择---</option>";
                     $.each(data, function (index, value) {
@@ -118,7 +118,7 @@
         </c:if>
 
         $("#departmentId").change(function () {
-            $.post("${pageContext.request.contextPath}/showPost.action",
+            $.post("${pageContext.request.contextPath}/hr/showPost.action",
                     {
                         depId: $("#departmentId").val()
                     },

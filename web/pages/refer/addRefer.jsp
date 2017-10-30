@@ -7,7 +7,7 @@
     <title>无标题文档</title>
 
     <link href="${pageContext.request.contextPath}/css/sys.css" type="text/css" rel="stylesheet"/>
-
+    <script src="../../JQ3.2.1.js"></script>
 </head>
 
 <body class="emp_body">
@@ -36,7 +36,7 @@
     </tr>
 </table>
 
-<form action="/crm2/refer/referAction_add.action" method="post">
+<form action="${pageContext.request.contextPath}/refer/add.action" method="post">
     <table width="89%" class="emp_table" style="" align="left" cellspacing="0">
         <tr>
             <td width="120px" height="35" align="left">姓名：</td>
@@ -63,10 +63,10 @@
             <td>
                 <select name="intentionLevel">
                     <option value="">--请选择意向级别--</option>
-                    <option value="A.马上报名">A.马上报名</option>
-                    <option value="B.想报名，考虑中">B.想报名，考虑中</option>
-                    <option value="C.有报名意向，但暂时不能报名">C.有报名意向，但暂时不能报名</option>
-                    <option value="D.不能报名，以及其他原因">D.不能报名，以及其他原因</option>
+                    <option value="马上报名">A.马上报名</option>
+                    <option value="想报名，考虑中">B.想报名，考虑中</option>
+                    <option value="有报名意向，但暂时不能报名">C.有报名意向，但暂时不能报名</option>
+                    <option value="不能报名，以及其他原因">D.不能报名，以及其他原因</option>
                 </select>
             </td>
             <td>&nbsp;</td>
@@ -74,14 +74,13 @@
         <tr>
             <td>意向学科：</td>
             <td>
-                <select name="crmCourseType.courseTypeId" onchange="">
-                    <option value="">----请--选--择----</option>
-                    <option value="ee050687bd1a4455a153d7bbb7000008">JavaEE</option>
-                    <option value="ee050687bd1a4455a153d7bbb7000009">大数据</option>
+                <select name="courseTypeId" id="courseTypeId">
+                    <option value="-1">----请--选--择----</option>
+
                 </select>
                 &nbsp;&nbsp;&nbsp;意向班级：
-                <select name="crmClass.classId">
-                    <option value="">----请--选--择----</option>
+                <select name="classId" id="classId">
+                    <option value="-1">----请--选--择----</option>
                 </select>
             </td>
             <td>&nbsp;</td>
@@ -91,10 +90,10 @@
             <td align="left">
                 <select name="source">
                     <option value="">--请选择来源--</option>
-                    <option value="1.QQ">1.QQ</option>
-                    <option value="2.电话咨询">2.电话咨询</option>
-                    <option value="3.上门">3.上门</option>
-                    <option value="4.其他（老学员推荐）">4.其他（老学员推荐）</option>
+                    <option value="QQ">1.QQ</option>
+                    <option value="电话咨询">2.电话咨询</option>
+                    <option value="上门">3.上门</option>
+                    <option value="其他（老学员推荐）">4.其他（老学员推荐）</option>
                 </select>
             </td>
             <td>&nbsp;</td>
@@ -111,6 +110,30 @@
         </tr>
     </table>
 </form>
+<script type="application/javascript">
+    $(function () {
+        $.post("${pageContext.request.contextPath}/refer/findCourseJson.action", null,
+                function (data) {
+                    var html_ = '<option value="-1">----请--选--择----</option>'
+                    $.each(data, function (index, value) {
+                        html_ += '<option value="' + value.courseTypeId + '">' + value.courseName + '</option>'
+                    })
+                    $("#courseTypeId").html(html_)
+                }, "json");
+
+        $("#courseTypeId").change(function () {
+            $.post("${pageContext.request.contextPath}/refer/findClassJson.action",
+                    {courseTypeId: $("#courseTypeId").val()},
+                    function (data) {
+                        var html_ = '<option value="-1">----请--选--择----</option>'
+                        $.each(data, function (index, value) {
+                            html_ += '<option value="' + value.classId + '">' + value.name + '</option>'
+                        })
+                        $("#classId").html(html_)
+                    }, "json")
+        })
+    })
+</script>
 
 </body>
 </html>

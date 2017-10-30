@@ -28,7 +28,7 @@ public class StaffDaoImpl extends BaseDaoImpl<Staff> implements StaffDao {
         List<Object> lists = new ArrayList<>();
         if (staffName.toString().trim().length() > 0) {
             stringBuffer.append(" and staffName like ?");
-            lists.add(staffName);
+            lists.add("%" + staffName + "%");
         }
         if (!depId.equals("-1")) {
             stringBuffer.append(" and depId like ?");
@@ -38,7 +38,7 @@ public class StaffDaoImpl extends BaseDaoImpl<Staff> implements StaffDao {
             stringBuffer.append(" and postId like ?");
             lists.add(postId);
         }
-        List<Long> find = (List<Long>) this.getHibernateTemplate().find(stringBuffer.toString(),lists.toArray());
+        List<Long> find = (List<Long>) this.getHibernateTemplate().find(stringBuffer.toString(), lists.toArray());
         if (find != null) {
             return find.get(0).intValue();
         }
@@ -54,7 +54,7 @@ public class StaffDaoImpl extends BaseDaoImpl<Staff> implements StaffDao {
         List<Object> lists = new ArrayList<>();
         if (staffName.toString().trim().length() > 0) {
             stringBuffer.append(" and staffName like ?");
-            lists.add(staffName);
+            lists.add("%" + staffName + "%");
         }
         if (!depId.equals("-1")) {
             stringBuffer.append(" and depId like ?");
@@ -64,6 +64,7 @@ public class StaffDaoImpl extends BaseDaoImpl<Staff> implements StaffDao {
             stringBuffer.append(" and postId like ?");
             lists.add(postId);
         }
-        return this.getHibernateTemplate().execute(new PageHibernateCallback<Staff>(stringBuffer.toString(), lists.toArray(), startIndex, pageSize));
+        return this.getHibernateTemplate().execute(
+                new PageHibernateCallback<Staff>(stringBuffer.toString(), lists.toArray(), startIndex, pageSize));
     }
 }

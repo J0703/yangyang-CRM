@@ -38,7 +38,7 @@
 </table>
 
 <!-- 查询条件：马上查询 -->
-<form id="conditionFormId" action="${pageContext.request.contextPath}/staff_find.action" method="post">
+<form id="conditionFormId" action="${pageContext.request.contextPath}/hr/staff_find.action" method="post">
     <table width="88%" border="0" style="margin: 20px;">
         <tr>
             <td width="80px">部门：</td>
@@ -71,7 +71,7 @@
     </tr>
 </table>
 
-<form action="${pageContext.request.contextPath}/findStaff.action" method="post">
+<form action="${pageContext.request.contextPath}/hr/findStaff.action" method="post">
 
 <table width="100%" border="1">
     <tr class="henglan" style="font-weight:bold;">
@@ -90,7 +90,7 @@
             <td align="center">${staff.department.depName}</td>
             <td align="center">${staff.post.postName}</td>
             <td width="7%" align="center">
-                <a href="${pageContext.request.contextPath}/findSingleStaff.action?staffId=${staff.staffId}"><img
+                <a href="${pageContext.request.contextPath}/hr/findSingleStaff.action?staffId=${staff.staffId}"><img
                         src="${pageContext.request.contextPath}/images/button/modify.gif" class="img"/></a>
             </td>
         </tr>
@@ -105,7 +105,7 @@
             <td align="center">${staff.department.depName}</td>
             <td align="center">${staff.post.postName}</td>
             <td width="7%" align="center">
-                <a href="${pageContext.request.contextPath}/findSingleStaff.action?staffId=${staff.staffId}"><img
+                <a href="${pageContext.request.contextPath}/hr/findSingleStaff.action?staffId=${staff.staffId}"><img
                         src="${pageContext.request.contextPath}/images/button/modify.gif" class="img"/></a>
             </td>
         </tr>
@@ -143,7 +143,7 @@
 
     $(function () {
         // 页面加载
-        $.post("${pageContext.request.contextPath}/showDepartment.action", null,
+        $.post("${pageContext.request.contextPath}/hr/showDepartment.action", null,
                 function (data) {
                     var _html = "<option value='-1'>---请选择---</option>";
                     $.each(data, function (index, value) {
@@ -154,7 +154,7 @@
 
         // 值发生改变调用方法
         $("#departmentId").change(function () {
-            $.post("${pageContext.request.contextPath}/showPost.action",
+            $.post("${pageContext.request.contextPath}/hr/showPost.action",
                     // 传递did参数
                     {
                         depId: $("#departmentId").val()

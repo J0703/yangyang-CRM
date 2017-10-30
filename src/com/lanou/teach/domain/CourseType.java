@@ -3,7 +3,7 @@ package com.lanou.teach.domain;
 /**
  * Created by dllo on 17/10/27.
  */
-public class Course_Type {
+public class CourseType {
     private String courseTypeId;
     private Double courseCost;
     private int total;
@@ -48,5 +48,16 @@ public class Course_Type {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseType{" +
+                "courseTypeId='" + courseTypeId + '\'' +
+                ", courseCost=" + courseCost +
+                ", total=" + total +
+                ", courseName='" + courseName + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 }

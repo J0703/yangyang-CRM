@@ -1,13 +1,14 @@
 package com.lanou.teach.domain;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 /**
  * Created by dllo on 17/10/27.
  */
 public class Classes {
     private String classId; //主键 ID
-    private Course_Type course_type; //课程
+    private CourseType courseType; //课程
     private String name; //班级名称
     private Date beginTime; //开班时间
     private Date endTime; //毕业时间
@@ -29,12 +30,12 @@ public class Classes {
         this.classId = classId;
     }
 
-    public Course_Type getCourse_type() {
-        return course_type;
+    public CourseType getCourseType() {
+        return courseType;
     }
 
-    public void setCourse_type(Course_Type course_type) {
-        this.course_type = course_type;
+    public void setCourseType(CourseType course_type) {
+        this.courseType = course_type;
     }
 
     public String getName() {
@@ -131,5 +132,36 @@ public class Classes {
 
     public void setUploadTime(Date uploadTime) {
         this.uploadTime = uploadTime;
+    }
+
+    public Classes(CourseType courseType, String name, Date beginTime, Date endTime, String remark) {
+        this.courseType = courseType;
+        this.name = name;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.remark = remark;
+    }
+
+    public Classes() {
+    }
+
+    @Override
+    public String toString() {
+        return "Classes{" +
+                "classId='" + classId + '\'' +
+                ", courseType=" + courseType +
+                ", name='" + name + '\'' +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", status='" + status + '\'' +
+                ", totalCount=" + totalCount +
+                ", upgradeCount=" + upgradeCount +
+                ", changeCount=" + changeCount +
+                ", runoffCount=" + runoffCount +
+                ", remark='" + remark + '\'' +
+                ", uploadPath='" + uploadPath + '\'' +
+                ", uploadFileName='" + uploadFileName + '\'' +
+                ", uploadTime=" + uploadTime +
+                '}';
     }
 }

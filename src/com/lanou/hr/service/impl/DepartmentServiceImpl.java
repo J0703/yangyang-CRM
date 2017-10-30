@@ -50,7 +50,7 @@ public class DepartmentServiceImpl implements DepartmentService{
         String hql1 = "from Department where 1=1";
         int totalRecord = departmentDao.getTotalRecord(hql);
         PageBean<Department> pageBean = new PageBean<>(pageNum,pageSize,totalRecord);
-        List<Department> data = departmentDao.findALL(hql1,pageBean.getStartIndex(),pageBean.getPageSize());
+        List<Department> data = departmentDao.findALL(hql1,pageBean.getStartIndex(),pageSize);
         pageBean.setData(data);
         return pageBean;
     }

@@ -9,15 +9,17 @@
     <!-- 将struts2中的对象创建交给spring完成 -->
     <constant name="struts.objectFactory" value="spring"/>
 
-    <package name="crm_hr" extends="json-default">
+    <constant name="struts.multipart.maxSize" value="10785760"/>
+
+    <package name="crm_hr" extends="json-default" namespace="/hr">
 
         <!-- 操作权限拦截器 -->
         <interceptors>
-            <interceptor name="demoInterceptor" class="com.lanou.hr.Interceptor.DemoInterceptor"/>
+            <interceptor name="hrInterceptor" class="com.lanou.hr.Interceptor.hrInterceptor"/>
 
             <interceptor-stack name="myInterceptorStack">
-                <interceptor-ref name="demoInterceptor">
-                    <param name="excludeMethods">login,findDepartment,findPost,findStaff,staff_find</param>
+                <interceptor-ref name="hrInterceptor">
+                    <param name="excludeMethods">login,findByPage</param>
 
                 </interceptor-ref>
                 <interceptor-ref name="defaultStack"/>
@@ -103,4 +105,150 @@
             <result name="input">/pages/staff/addStaff.jsp</result>
         </action>
     </package>
+
+    <package name="crm_teach" extends="json-default" namespace="/teach">
+        <!-- 操作权限拦截器 -->
+        <interceptors>
+            <interceptor name="teachInterceptor" class="com.lanou.teach.interceptor.teachInterceptor"/>
+
+            <interceptor-stack name="myInterceptorStack">
+                <interceptor-ref name="teachInterceptor">
+                    <param name="excludeMethods">login,findByPage</param>
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <!-- 给当前package中所有的action添加自定义拦截器 -->
+        <default-interceptor-ref name="myInterceptorStack"/>
+        <!-- 定义全局结果集 -->
+        <global-results>
+            <result name="permissions">/pages/error.jsp</result>
+        </global-results>
+
+
+        <!-- 查询所有课程 -->
+        <action name="findCourseType" class="com.lanou.teach.action.CourseTypeAction" method="findByPage">
+            <result name="success">/pages/coursetype/listCourse.jsp</result>
+        </action>
+        <action name="findCourseJson" class="com.lanou.teach.action.CourseTypeAction" method="findAll">
+            <result name="success" type="json">
+                <param name="root">courseTypes</param>
+            </result>
+        </action>
+        <!-- 查询所有班级 -->
+        <action name="findClasses" class="com.lanou.teach.action.ClassesAction" method="findByPage">
+            <result name="success">/pages/classesm/listClass.jsp</result>
+        </action>
+        <!-- 编辑课程表单回显 -->
+        <action name="findSingleCourseType" class="com.lanou.teach.action.CourseTypeAction" method="findSingle">
+            <result name="success">/pages/coursetype/addOrEditCourse.jsp</result>
+        </action>
+        <!-- 添加或编辑course -->
+        <action name="addOrEditCourse" class="com.lanou.teach.action.CourseTypeAction" method="addOrEdit">
+            <result name="success" type="chain">findCourseType</result>
+            <result name="input">/pages/coursetype/addOrEditCourse.jsp</result>
+        </action>
+        <!-- 高级查询分页 -->
+        <action name="findCourseTypeByCD" class="com.lanou.teach.action.CourseTypeAction" method="findByCD">
+            <result name="success">/pages/coursetype/listCourse.jsp</result>
+            <result name="input">/pages/coursetype/listCourse.jsp</result>
+        </action>
+        <action name="findSingleClasses" class="com.lanou.teach.action.ClassesAction" method="findSingle">
+            <result name="success">/pages/classesm/addOrEditClass.jsp</result>
+        </action>
+        <!-- 添加或编辑classes -->
+        <action name="addOrEditClasses" class="com.lanou.teach.action.ClassesAction" method="addOrEdit">
+            <result name="success" type="chain">findClasses</result>
+            <result name="input">/pages/classesm/addOrEditClass.jsp</result>
+        </action>
+        <action name="findByUpload" class="com.lanou.teach.action.ClassesAction" method="findByUpload">
+            <result name="success">/pages/classesm/uploadClass.jsp</result>
+        </action>
+
+        <action name="upload" class="com.lanou.teach.action.ClassesAction" method="upload">
+            <result name="success">/pages/classesm/listClass.jsp</result>
+        </action>
+
+        <action name="download" class="com.lanou.teach.action.ClassesAction" method="download">
+            <result name="input">/pages/classesm/listClass.jsp</result>
+            <result name="success" type="stream">
+                <param name="inputStream">inputStream</param>
+                <param name="contentDisposition">attachment;filename=${filename}</param>
+                <param name="contentType">application/octet-stream</param>
+            </result>
+        </action>
+        <action name="showClasses" class="com.lanou.teach.action.ClassesAction" method="showClasses">
+            <result name="success">/pages/classesm/showClass.jsp</result>
+        </action>
+    </package>
+
+    <package name="crm_refer" extends="json-default" namespace="/refer">
+        <!-- 操作权限拦截器 -->
+        <interceptors>
+            <interceptor name="referInterceptor" class="com.lanou.refer.interceptor.ReferInterceptor"/>
+
+            <interceptor-stack name="myInterceptorStack">
+                <interceptor-ref name="referInterceptor">
+                    <param name="excludeMethods">login,findByPage1,findByPage2</param>
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <!-- 给当前package中所有的action添加自定义拦截器 -->
+        <default-interceptor-ref name="myInterceptorStack"/>
+        <!-- 定义全局结果集 -->
+        <global-results>
+            <result name="permissions">/pages/error.jsp</result>
+        </global-results>
+
+        <action name="findByStatus1" class="com.lanou.refer.action.ReferAction" method="findByPage1">
+            <result name="success">/pages/refer/listRefer.jsp</result>
+        </action>
+
+        <action name="findByStatus2" class="com.lanou.refer.action.ReferAction" method="findByPage2">
+            <result name="success">/pages/refer/listRefer.jsp</result>
+        </action>
+
+        <action name="add" class="com.lanou.refer.action.ReferAction" method="add">
+            <result name="success" type="chain">findByStatus1</result>
+            <result name="input">/pages/refer/addRefer.jsp</result>
+        </action>
+
+        <action name="findCourseJson" class="com.lanou.teach.action.CourseTypeAction" method="findAll">
+            <result name="success" type="json">
+                <param name="root">courseTypes</param>
+            </result>
+        </action>
+
+        <action name="findClassJson" class="com.lanou.teach.action.ClassesAction" method="findByCourse">
+            <result name="success" type="json">
+                <param name="root">classesList</param>
+            </result>
+        </action>
+
+        <action name="showRefer" class="com.lanou.refer.action.ReferAction" method="show">
+            <result name="success">/pages/refer/showRefer.jsp</result>
+        </action>
+
+        <action name="showReferEdit" class="com.lanou.refer.action.ReferAction" method="findByEdit">
+            <result name="success">/pages/refer/editRefer.jsp</result>
+        </action>
+
+        <action name="updateRefer" class="com.lanou.refer.action.ReferAction" method="update">
+            <result name="success" type="chain">findByStatus1</result>
+        </action>
+
+        <action name="findSingle" class="com.lanou.refer.action.FollowAction" method="findSingle">
+            <result name="success">/pages/follow/addOrEditFollow.jsp</result>
+        </action>
+
+        <action name="addFollow" class="com.lanou.refer.action.FollowAction" method="addFollow">
+            <result name="success" type="chain">findByStatus1</result>
+        </action>
+
+        <action name="findByCD" class="com.lanou.refer.action.ReferAction" method="findByCD">
+            <result name="success">/pages/refer/listRefer.jsp</result>
+        </action>
+    </package>
+
 </struts>

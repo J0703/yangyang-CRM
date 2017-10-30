@@ -13,8 +13,8 @@
 		d = new dTree('d','${pageContext.request.contextPath}');
 		d.add('01','-1','CRM管理系统');
 		d.add('0101','01','咨询部');
-		d.add('010101','0101','咨询学生管理','${pageContext.request.contextPath}/pages/refer/listRefer.jsp?status=1','','right');
-		d.add('010102','0101','查询报名学生','${pageContext.request.contextPath}/pages/refer/listRefer.jsp?status=2','','right');
+		d.add('010101','0101','咨询学生管理','${pageContext.request.contextPath}/refer/findByStatus1.action','','right');
+		d.add('010102','0101','查询报名学生','${pageContext.request.contextPath}/refer/findByStatus2.action','','right');
 
 		d.add('0102','01','职规部');
 		d.add('010201','0102','在校学生管理','${pageContext.request.contextPath}/pages/student/listStudent.jsp','','right');
@@ -22,14 +22,14 @@
 		d.add('010203','0102','学生流失情况','${pageContext.request.contextPath}/pages/runoff/listRunoff.jsp','','right');
 		d.add('0103','01','教研部');
 		<%-- 班级前缀和包结构命名：classesm ，其他命名class --%>
-		d.add('010301','0103','班级管理','${pageContext.request.contextPath}/pages/classesm/listClass.jsp','','right');
-		d.add('010302','0103','课程类别','${pageContext.request.contextPath}/pages/coursetype/listCourse.jsp','','right');
+		d.add('010301','0103','班级管理','${pageContext.request.contextPath}/teach/findClasses.action','','right');
+		d.add('010302','0103','课程类别','${pageContext.request.contextPath}/teach/findCourseType.action','','right');
 		d.add('0104','01','就业部');
 		d.add('010401','0104','就业情况','${pageContext.request.contextPath}/pages/graduate/listGraduate.jsp','','right');
 		d.add('0105','01','人力资源部');
-		d.add('010501','0105','部门管理','${pageContext.request.contextPath}/findDepartment.action','','right');
-		d.add('010502','0105','职务管理','${pageContext.request.contextPath}/findPost.action','','right');
-		d.add('010503','0105','员工管理','${pageContext.request.contextPath}/findStaff.action','','right');
+		d.add('010501','0105','部门管理','${pageContext.request.contextPath}/hr/findDepartment.action','','right');
+		d.add('010502','0105','职务管理','${pageContext.request.contextPath}/hr/findPost.action','','right');
+		d.add('010503','0105','员工管理','${pageContext.request.contextPath}/hr/findStaff.action','','right');
 
 		document.write(d);
 	</script>

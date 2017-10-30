@@ -1,0 +1,37 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.lanou.refer.domain.Refer" table="crm_refer">
+        <id name="referId">
+            <generator class="uuid"/>
+        </id>
+        <property name="name"/>
+        <property name="telephone"/>
+        <property name="qq"/>
+        <property name="createDate" type="date"/>
+        <property name="intentionLevel"/>
+        <many-to-one name="courseType"
+                     cascade="none"
+                     class="com.lanou.teach.domain.CourseType"
+                     column="courseTypeId"
+                     lazy="false"
+                     not-null="false"/>
+        <many-to-one name="classes"
+                     class="com.lanou.teach.domain.Classes"
+                     cascade="none"
+                     column="classId"
+                     lazy="false"
+                     not-null="false"/>
+        <property name="source"/>
+        <property name="status"/>
+        <property name="remark"/>
+        <many-to-one name="staff"
+                     class="com.lanou.hr.domain.Staff"
+                     cascade="none"
+                     column="staffId"
+                     lazy="false"
+                     not-null="false"/>
+    </class>
+</hibernate-mapping>

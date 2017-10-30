@@ -49,7 +49,7 @@ public class StaffAction extends ActionSupport implements ModelDriven<Staff> {
     private int pageSize = 3;
 
     /**
-     * 获得department集合
+     * 获得staff集合
      */
 
     public String findByPage() {
@@ -92,7 +92,7 @@ public class StaffAction extends ActionSupport implements ModelDriven<Staff> {
         staff = staffService.get(Staff.class, staffDriven.getStaffId());
         departments = departmentService.findAll();
         Map<String, Object> params = new HashMap<>();
-        params.put("depId", staffDriven.getDepartment().getDepId());
+        params.put("depId", staff.getDepartment().getDepId());
         posts = postService.find(params);
         return SUCCESS;
     }

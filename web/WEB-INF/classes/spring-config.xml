@@ -82,4 +82,16 @@
     <bean id="baseDao" class="com.lanou.hr.dao.impl.BaseDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    <bean id="classesDao" class="com.lanou.teach.dao.impl.ClassesDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="courseTypeDao" class="com.lanou.teach.dao.impl.CourseTypeDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="referDao" class="com.lanou.refer.dao.impl.ReferDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="followDao" class="com.lanou.refer.dao.impl.FollowDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

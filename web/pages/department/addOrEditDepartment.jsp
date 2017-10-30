@@ -40,7 +40,7 @@
     </tr>
 </table>
 
-<form action="${pageContext.request.contextPath}/updateDepartment.action?depId=<s:property value="department.depId"/>"
+<form action="${pageContext.request.contextPath}/hr/updateDepartment.action?depId=<s:property value="department.depId"/>"
       method="post">
 
     <table width="88%" border="0" class="emp_table" style="width:80%;">

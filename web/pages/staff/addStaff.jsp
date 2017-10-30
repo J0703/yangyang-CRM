@@ -36,7 +36,7 @@
     </tr>
 </table>
 
-<form action="${pageContext.request.contextPath}/saveStaff.action" method="post">
+<form action="${pageContext.request.contextPath}/hr/saveStaff.action" method="post">
     <table width="88%" border="0" class="emp_table" style="width:80%;">
         <tr>
             <td>登录名：</td>
@@ -83,7 +83,7 @@
 <script>
     $(function () {
         // 页面加载
-        $.post("${pageContext.request.contextPath}/showDepartment.action", null,
+        $.post("${pageContext.request.contextPath}/hr/showDepartment.action", null,
                 function (data) {
                     var _html = "<option value='-1'>---请选择---</option>";
                     $.each(data, function (index, value) {
@@ -94,7 +94,7 @@
 
         // 值发生改变调用方法
         $("#departmentId").change(function () {
-            $.post("${pageContext.request.contextPath}/showPost.action",
+            $.post("${pageContext.request.contextPath}/hr/showPost.action",
                     // 传递did参数
                     {
                         depId: $("#departmentId").val()

@@ -39,7 +39,7 @@
     </tr>
 </table>
 
-<form action="${pageContext.request.contextPath}/findDepartment.action" method="post">
+<form action="${pageContext.request.contextPath}/hr/findDepartment.action" method="post">
     <table width="100%" border="1">
 
         <tr class="henglan" style="font-weight:bold;">
@@ -52,8 +52,7 @@
             <tr class="tabtd1">
                 <td align="center">${depart.depName} </td>
                 <td width="7%" align="center">
-                    <a href="${pageContext.request.contextPath}
-                /findSingleDepartment.action?depId=${depart.depId}">
+                    <a href="${pageContext.request.contextPath}/hr/findSingleDepartment.action?depId=${depart.depId}">
                         <img src="${pageContext.request.contextPath}/images/button/modify.gif" class="img"/></a>
                 </td>
             </tr>
@@ -67,7 +66,6 @@
     <tr>
         <td align="right">
             <span>第<s:property value="#pageBean.pageNum"/>/<s:property value="#pageBean.totalPage"/>页</span>
-
             <span>
                 <s:if test="#pageBean.pageNum gt 1">
                     <a href="javascript:void(0)" onclick="showPage(1)">[首页]</a>&nbsp;&nbsp;
@@ -80,7 +78,6 @@
                        onclick="showPage(<s:property value="#pageBean.pageNum + 1"/>)">[下一页]</a>&nbsp;&nbsp;
                     <a href="javascript:void(0)" onclick="showPage(<s:property value="#pageBean.totalPage"/>)">[尾页]</a>
                 </s:if>
-
         </span>
         </td>
     </tr>

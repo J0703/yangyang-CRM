@@ -17,14 +17,13 @@ import java.util.Map;
  * Created by dllo on 17/10/25.
  */
 @Controller("loginAction")
-public class LoginAction extends ActionSupport implements ModelDriven<Staff>{
+public class LoginAction extends ActionSupport{
 
     @Autowired
     @Qualifier("staffService")
     private StaffService staffService;
     private String loginName;
     private String loginPwd;
-    private Staff staff;
     private String newPassword;
     private String reNewPassword;
 
@@ -123,9 +122,4 @@ public class LoginAction extends ActionSupport implements ModelDriven<Staff>{
         this.reNewPassword = reNewPassword;
     }
 
-    @Override
-    public Staff getModel() {
-        staff = new Staff();
-        return staff;
-    }
 }

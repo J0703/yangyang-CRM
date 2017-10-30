@@ -1,0 +1,26 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.lanou.refer.domain.Follow" table="crm_follow">
+        <id name="followId">
+            <generator class="uuid"/>
+        </id>
+        <property name="followTime" type="date"/>
+        <property name="content"/>
+
+        <many-to-one name="refer"
+                     class="com.lanou.refer.domain.Refer"
+                     column="referId"
+                     cascade="none"
+                     lazy="false"
+                     unique="true"/>
+        <many-to-one name="staff"
+                     class="com.lanou.hr.domain.Staff"
+                     column="staffId"
+                     cascade="none"
+                     lazy="false"
+                     not-null="false"/>
+    </class>
+</hibernate-mapping>

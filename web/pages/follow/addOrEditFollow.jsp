@@ -29,13 +29,14 @@
   </tr>
 </table>
 
-<form action="${pageContext.request.contextPath}/pages/refer/showRefer.jsp" method="post">
+<form action="${pageContext.request.contextPath}/refer/addFollow.action?followId=${follow.followId}&referId=${refers.referId}" method="post">
 	<%--当前咨询 --%>
+
 	<table width="88%" border="0" class="emp_table" style="width:80%;">
 	  <tr>
-	    <td width="10%">跟踪信息：</td>
+	    <td width="10%">跟踪信息</td>
 	    <td width="20%">
-	    	<textarea rows="5" cols="40" name="content"></textarea>
+	    	<textarea rows="5" cols="40" name="content">${follow.content}</textarea>
 	    </td>
 	    <td width="70%"></td>
 	  </tr>

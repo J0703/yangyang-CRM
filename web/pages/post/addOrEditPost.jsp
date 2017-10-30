@@ -37,7 +37,7 @@
     </tr>
 </table>
 
-<form action="${pageContext.request.contextPath}/updatePost.action?postId=<s:property
+<form action="${pageContext.request.contextPath}/hr/updatePost.action?postId=<s:property
         value="post.postId"/>" method="post">
     <table width="88%" border="0" class="emp_table" style="width:80%;">
         <tr>
@@ -62,7 +62,7 @@
 <script>
 $(function () {
     <c:if test="${empty departments}">
-    $.post("${pageContext.request.contextPath}/showDepartment.action", null,
+    $.post("${pageContext.request.contextPath}/hr/showDepartment.action", null,
             function (data) {
                 var _html = "<option value='-1'>---请选择---</option>";
                 $.each(data, function (index, value) {

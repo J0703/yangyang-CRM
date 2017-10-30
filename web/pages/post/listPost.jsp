@@ -39,7 +39,7 @@
     </tr>
 </table>
 
-<form action="${pageContext.request.contextPath}/findPost.action" method="post">
+<form action="${pageContext.request.contextPath}/hr/findPost.action" method="post">
 
 
     <table width="100%" border="1">
@@ -55,7 +55,7 @@
                 <td align="center">${post.department.depName}</td>
                 <td align="center">${post.postName} </td>
                 <td width="7%" align="center">
-                    <a href="${pageContext.request.contextPath}/findSinglePost.action?postId=${post.postId}">
+                    <a href="${pageContext.request.contextPath}/hr/findSinglePost.action?postId=${post.postId}">
                         <img src="${pageContext.request.contextPath}/images/button/modify.gif" class="img"/></a>
                 </td>
             </tr>
