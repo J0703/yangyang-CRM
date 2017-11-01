@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.List;
  * Created by dllo on 17/10/27.
  */
 @Controller("courseTypeAction")
+@Scope("prototype")
 public class CourseTypeAction extends ActionSupport implements ModelDriven<CourseType> {
     @Autowired
     @Qualifier("courseTypeService")
@@ -39,7 +41,6 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
 
     /**
      * 高级查询分页
-     * @return
      */
     public String findByCD() {
         List<Object> params = new ArrayList<>();
@@ -61,23 +62,23 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
      * 高级查询表单校验
      */
     public void validateFindByCD() {
-        if (!StringUtils.isBlank(totalStart)){
-            if (!NumberUtils.isNumber(totalStart)){
+        if (!StringUtils.isBlank(totalStart)) {
+            if (!NumberUtils.isNumber(totalStart)) {
                 addActionError("输入的数据不合法");
             }
         }
-        if (!StringUtils.isBlank(totalEnd)){
-            if (!NumberUtils.isNumber(totalEnd)){
+        if (!StringUtils.isBlank(totalEnd)) {
+            if (!NumberUtils.isNumber(totalEnd)) {
                 addActionError("输入的数据不合法");
             }
         }
-        if (!StringUtils.isBlank(lessonCostEnd)){
-            if (!NumberUtils.isNumber(lessonCostEnd)){
+        if (!StringUtils.isBlank(lessonCostEnd)) {
+            if (!NumberUtils.isNumber(lessonCostEnd)) {
                 addActionError("输入的数据不合法");
             }
         }
-        if (!StringUtils.isBlank(lessonCostStart)){
-            if (!NumberUtils.isNumber(lessonCostStart)){
+        if (!StringUtils.isBlank(lessonCostStart)) {
+            if (!NumberUtils.isNumber(lessonCostStart)) {
                 addActionError("输入的数据不合法");
             }
         }
@@ -85,8 +86,7 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
     }
 
     /**
-     * 分页查询
-     * @return
+     * 分页查询课程
      */
     public String findByPage() {
         if (pageNum == 0) {
@@ -99,8 +99,7 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
 
 
     /**
-     * 查询所有
-     * @return
+     * 查询所有课程
      */
     public String findAll() {
         courseTypes = courseTypeService.findAll();
@@ -109,7 +108,6 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
 
     /**
      * 通过id查询单个对象
-     * @return
      */
     public String findSingle() {
         courseType = courseTypeService.findSingle(CourseType.class, courseTypeDriven.getCourseTypeId());
@@ -118,7 +116,6 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
 
     /**
      * 增加或编辑
-     * @return
      */
     public String addOrEdit() {
         System.out.println(courseTypeDriven);
@@ -130,6 +127,9 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
         return SUCCESS;
     }
 
+    /**
+     * 添加或编辑表单校验
+     */
     public void validateAddOrEdit() {
         if (StringUtils.isBlank(courseTypeDriven.getCourseName()) || StringUtils.isBlank(courseTypeDriven.getCourseCost().toString()) ||
                 courseTypeDriven.getTotal() <= 0) {
@@ -153,11 +153,6 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
         this.courseType = courseType;
     }
 
-    @Override
-    public CourseType getModel() {
-        courseTypeDriven = new CourseType();
-        return courseTypeDriven;
-    }
 
     public int getPageNum() {
         return pageNum;
@@ -197,5 +192,11 @@ public class CourseTypeAction extends ActionSupport implements ModelDriven<Cours
 
     public void setLessonCostEnd(String lessonCostEnd) {
         this.lessonCostEnd = lessonCostEnd;
+    }
+
+    @Override
+    public CourseType getModel() {
+        courseTypeDriven = new CourseType();
+        return courseTypeDriven;
     }
 }

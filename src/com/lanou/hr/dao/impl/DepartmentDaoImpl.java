@@ -2,10 +2,6 @@ package com.lanou.hr.dao.impl;
 
 import com.lanou.hr.dao.DepartmentDao;
 import com.lanou.hr.domain.Department;
-import com.lanou.hr.util.PageHibernateCallback;
-import org.hibernate.Session;
-
-import java.util.List;
 
 
 /**

@@ -57,8 +57,10 @@
                     <br/>
                     <br/>
                     <font color="#ff0000">
-
+                        <s:fielderror/>
                         <s:actionerror/>
+                        ${msg}
+                        <s:property value="#session.msg"/>
                     </font>
                     <br/>
                     用户名：<input type="text" name="loginName" class="msg"/><br/><br/>
@@ -70,10 +72,6 @@
             </td>
         </tr>
     </table>
-    <font color="#ff0000">
-
-        <s:fielderror/>
-    </font>
 
     <script type="text/javascript">
         <%--/* s标签中直接编写JavaScript代码时，不支持el表达式，只能提供单独的函数--%>

@@ -2,7 +2,9 @@ package com.lanou.refer.action;
 
 import com.lanou.hr.domain.Staff;
 import com.lanou.hr.util.PageBean;
+import com.lanou.refer.domain.Follow;
 import com.lanou.refer.domain.Refer;
+import com.lanou.refer.service.FollowService;
 import com.lanou.refer.service.ReferService;
 import com.lanou.teach.domain.Classes;
 import com.lanou.teach.domain.CourseType;
@@ -15,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.util.*;
@@ -23,11 +26,15 @@ import java.util.*;
  * Created by dllo on 17/10/28.
  */
 @Controller("referAction")
+@Scope("prototype")
 public class ReferAction extends ActionSupport implements ModelDriven<Refer> {
 
     @Autowired
     @Qualifier("referService")
     private ReferService referService;
+    @Autowired
+    @Qualifier("followService")
+    private FollowService followService;
     @Autowired
     @Qualifier("courseTypeService")
     private CourseTypeService courseTypeService;
@@ -46,32 +53,42 @@ public class ReferAction extends ActionSupport implements ModelDriven<Refer> {
 
     private int pageNum;
     private int pageSize = 3;
+    private Follow follow;
+
     /**
-     * 分页查询获得post集合
+     * 分页查询状态为1的refer集合
      */
-    public String findByPage1(){
-        if (pageNum == 0){
+    public String findByPage1() {
+        if (pageNum == 0) {
             pageNum = 1;
         }
-        ServletActionContext.getRequest().setAttribute("status","1");
-        PageBean<Refer> pageBean = referService.findByPage("1",pageNum,pageSize);
-        ActionContext.getContext().put("pageBean",pageBean);
-        return SUCCESS;
-    }
-    public String findByPage2(){
-        if (pageNum == 0){
-            pageNum = 1;
-        }
-        ServletActionContext.getRequest().setAttribute("status","2");
-        PageBean<Refer> pageBean = referService.findByPage("2",pageNum,pageSize);
-        ActionContext.getContext().put("pageBean",pageBean);
+        ServletActionContext.getRequest().getSession().setAttribute("status", "1");
+        PageBean<Refer> pageBean = referService.findByPage("1", pageNum, pageSize);
+        ActionContext.getContext().put("pageBean", pageBean);
         return SUCCESS;
     }
 
-    public String findByCD(){
-        System.out.println(condition);
+    /**
+     * 分页查询状态为2的refer集合
+     */
+    public String findByPage2() {
+        if (pageNum == 0) {
+            pageNum = 1;
+        }
+        ServletActionContext.getRequest().getSession().setAttribute("status", "2");
+        PageBean<Refer> pageBean = referService.findByPage("2", pageNum, pageSize);
+        ActionContext.getContext().put("pageBean", pageBean);
+        return SUCCESS;
+    }
+
+    /**
+     * 失去焦点高级查询
+     */
+    public String findByCD() {
         List<Object> params = new ArrayList<>();
         params.add(condition);
+        Object status = ServletActionContext.getRequest().getSession().getAttribute("status");
+        params.add(status);
         if (pageNum == 0) {
             pageNum = 1;
         }
@@ -80,22 +97,31 @@ public class ReferAction extends ActionSupport implements ModelDriven<Refer> {
         return SUCCESS;
     }
 
-
+    /**
+     * show学生表单回显
+     */
     public String show() {
         refer = referService.findSingle(Refer.class, referDriven.getReferId());
+        follow = followService.findByReferId(referDriven.getReferId());
         return SUCCESS;
     }
 
-    public String findByEdit(){
+    /**
+     * 编辑表单回显
+     */
+    public String findByEdit() {
         courseTypes = courseTypeService.findAll();
         refer = referService.findSingle(Refer.class, referDriven.getReferId());
         Map<String, Object> params = new HashMap<>();
-        params.put("courseTypeId",refer.getCourseType().getCourseTypeId());
+        params.put("courseTypeId", refer.getCourseType().getCourseTypeId());
         classesList = classesService.findByCourse(params);
         return SUCCESS;
     }
 
-    public String update(){
+    /**
+     * 更新
+     */
+    public String update() {
         Classes classes = classesService.findSingle(Classes.class, classId);
         CourseType courseType = courseTypeService.findSingle(CourseType.class, courseTypeId);
         Refer refer = referService.findSingle(Refer.class, referDriven.getReferId());
@@ -115,6 +141,9 @@ public class ReferAction extends ActionSupport implements ModelDriven<Refer> {
         return SUCCESS;
     }
 
+    /**
+     * 添加咨询学生
+     */
     public String add() {
         Classes classes = classesService.findSingle(Classes.class, classId);
         CourseType courseType = courseTypeService.findSingle(CourseType.class, courseTypeId);
@@ -132,6 +161,18 @@ public class ReferAction extends ActionSupport implements ModelDriven<Refer> {
         return SUCCESS;
     }
 
+    /**
+     * 更新表单校验
+     */
+    public void validateupdate() {
+        if (StringUtils.isBlank(referDriven.getName())) {
+            addActionError("姓名不能为空");
+        }
+    }
+
+    /**
+     * 添加表单校验
+     */
     public void validateAdd() {
         if (StringUtils.isBlank(referDriven.getName())) {
             addActionError("姓名不能为空");
@@ -200,6 +241,14 @@ public class ReferAction extends ActionSupport implements ModelDriven<Refer> {
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    public Follow getFollow() {
+        return follow;
+    }
+
+    public void setFollow(Follow follow) {
+        this.follow = follow;
     }
 
     @Override

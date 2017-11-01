@@ -1,0 +1,21 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.lanou.career_plan.domain.RunOff" table="crm_runoff">
+        <id name="runOffId">
+            <generator class="uuid"/>
+        </id>
+        <many-to-one name="student"
+                     class="com.lanou.career_plan.domain.Student"
+                     column="studentId"
+                     cascade="none"
+                     lazy="false"
+                     unique="true"/>
+        <property name="createDate" type="java.util.Date"/>
+        <property name="isRefund"/>
+        <property name="refundAmount"/>
+        <property name="remark"/>
+    </class>
+</hibernate-mapping>

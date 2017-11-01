@@ -16,7 +16,6 @@ public class Staff {
     private Post post;
     private Department department;
 
-
     public Staff() {
     }
 
@@ -58,7 +57,6 @@ public class Staff {
                 ", onDutyDate=" + onDutyDate +
                 '}';
     }
-
 
 
     public String getStaffId() {

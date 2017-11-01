@@ -15,11 +15,11 @@
 
         <!-- 操作权限拦截器 -->
         <interceptors>
-            <interceptor name="hrInterceptor" class="com.lanou.hr.Interceptor.hrInterceptor"/>
+            <interceptor name="hrInterceptor" class="com.lanou.hr.Interceptor.HRInterceptor"/>
 
             <interceptor-stack name="myInterceptorStack">
                 <interceptor-ref name="hrInterceptor">
-                    <param name="excludeMethods">login,findByPage</param>
+                    <param name="excludeMethods">login,findByPage,find,findDepartment,showPost</param>
 
                 </interceptor-ref>
                 <interceptor-ref name="defaultStack"/>
@@ -34,12 +34,12 @@
         <!-- 登录 -->
         <action name="login" class="com.lanou.hr.action.LoginAction" method="login">
             <result name="success">/pages/frame.jsp</result>
-            <result name="input">/pages/login.jsp</result>
+            <result name="input">/login.jsp</result>
         </action>
         <!-- 修改密码 -->
         <action name="updatePwd" class="com.lanou.hr.action.LoginAction" method="updatePwd">
-            <result name="success">pages/success.jsp</result>
-            <result name="input">pages/staff/updPwd.jsp</result>
+            <result name="input">/pages/staff/updPwd.jsp</result>
+            <result name="login" type="redirect">/login.jsp</result>
         </action>
         <!-- 分页查询department -->
         <action name="findDepartment" class="com.lanou.hr.action.DepartmentAction" method="findByPage">
@@ -166,7 +166,7 @@
         </action>
 
         <action name="upload" class="com.lanou.teach.action.ClassesAction" method="upload">
-            <result name="success">/pages/classesm/listClass.jsp</result>
+            <result name="success" type="chain">findClasses</result>
         </action>
 
         <action name="download" class="com.lanou.teach.action.ClassesAction" method="download">
@@ -186,7 +186,6 @@
         <!-- 操作权限拦截器 -->
         <interceptors>
             <interceptor name="referInterceptor" class="com.lanou.refer.interceptor.ReferInterceptor"/>
-
             <interceptor-stack name="myInterceptorStack">
                 <interceptor-ref name="referInterceptor">
                     <param name="excludeMethods">login,findByPage1,findByPage2</param>
@@ -235,7 +234,7 @@
         </action>
 
         <action name="updateRefer" class="com.lanou.refer.action.ReferAction" method="update">
-            <result name="success" type="chain">findByStatus1</result>
+            <result name="success">/pages/success.jsp</result>
         </action>
 
         <action name="findSingle" class="com.lanou.refer.action.FollowAction" method="findSingle">
@@ -243,7 +242,7 @@
         </action>
 
         <action name="addFollow" class="com.lanou.refer.action.FollowAction" method="addFollow">
-            <result name="success" type="chain">findByStatus1</result>
+            <result name="success">/pages/success.jsp</result>
         </action>
 
         <action name="findByCD" class="com.lanou.refer.action.ReferAction" method="findByCD">

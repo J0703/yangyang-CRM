@@ -20,7 +20,8 @@ public interface ReferService {
 
     void update(Refer referDriven);
 
-    PageBean<Refer> findByPage(String status,int pageNum, int pageSize);
+    PageBean<Refer> findByPage(String status, int pageNum, int pageSize);
 
     PageBean<Refer> findByCD(List<Object> params, int pageNum, int pageSize);
+
 }

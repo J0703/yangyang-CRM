@@ -94,16 +94,11 @@
                     <td width="80px" align="center">资源人员</td>
                 </tr>
                 <tr>
-                    <td style="padding-left: 10px;">钱已经解决</td>
-                    <td align="center">2016-09-11 10:10</td>
-                    <td align="center">管理员</td>
+                    <td style="padding-left: 10px;">${follow.content}</td>
+                    <td align="center">${follow.followTime}</td>
+                    <td align="center">${follow.staff.staffName}</td>
                 </tr>
 
-                <tr>
-                    <td style="padding-left: 10px;">有问题，钱不够</td>
-                    <td align="center">2016-08-22 11:11</td>
-                    <td align="center">管理员</td>
-                </tr>
 
             </table>
         </td>

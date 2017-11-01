@@ -31,10 +31,16 @@ public class PageHibernateCallback<T> implements HibernateCallback<List<T>> {
         this.pageSize = pageSize;
     }
 
+    /**
+     * 分页查询
+     *
+     * @param session session
+     * @throws HibernateException
+     */
     @Override
     public List<T> doInHibernate(Session session) throws HibernateException {
         Query query = session.createQuery(hql);
-        if (params != null){
+        if (params != null) {
             for (int i = 0; i < params.length; i++) {
                 query.setParameter(i, params[i]);
             }

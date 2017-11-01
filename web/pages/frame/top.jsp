@@ -132,7 +132,7 @@
 										</a>
 									</td>
 										<td width="55" valign="middle">
-											<a href="${pageContext.request.contextPath}/pages/login.jsp" target="_top">
+											<a href="${pageContext.request.contextPath}/login.jsp" target="_top">
 												<font color="ffffff">重新登录</font></a></td>
 								</tr>
 							</table>

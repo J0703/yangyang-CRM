@@ -2,22 +2,26 @@ package com.lanou.hr.action;
 
 import com.lanou.hr.domain.Staff;
 import com.lanou.hr.service.StaffService;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  * Created by dllo on 17/10/25.
  */
 @Controller("loginAction")
-public class LoginAction extends ActionSupport{
+@Scope("prototype")
+public class LoginAction extends ActionSupport {
 
     @Autowired
     @Qualifier("staffService")
@@ -38,7 +42,7 @@ public class LoginAction extends ActionSupport{
             addActionError("用户不存在");
             return INPUT;
         }
-        params.put("loginPwd", loginPwd);
+        params.put("loginPwd", new StaffAction().EncoderByMd5(loginPwd));
         Staff staff = staffService.login(params);
         ServletActionContext.getRequest().getServletContext().setAttribute("adminStaff", staff);
         if (staff == null) {
@@ -52,22 +56,23 @@ public class LoginAction extends ActionSupport{
      * 修改密码
      */
     public String updatePwd() {
-        Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("staff");
-        staff.setLoginPwd(newPassword);
+        Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("adminStaff");
+        staff.setLoginPwd(new StaffAction().EncoderByMd5(newPassword));
         staffService.update(staff);
-        addFieldError("msg", "密码修改成功, 请重新登录");
-        return SUCCESS;
+        ActionContext.getContext().getSession().put("msg", "密码修改成功, 请重新登录");
+        ServletActionContext.getRequest().getServletContext().removeAttribute("adminStaff");
+        return LOGIN;
     }
 
     /**
      * 修改密码表单校验
      */
     public void validateUpdatePwd() {
-        Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("staff");
+        Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("adminStaff");
         if (StringUtils.isBlank(newPassword) || StringUtils.isBlank(reNewPassword) || StringUtils.isBlank(loginPwd)) {
             addActionError("输入的密码不能为空");
         } else {
-            if (!staff.getLoginPwd().equals(loginPwd)) {
+            if (!staff.getLoginPwd().equals(new StaffAction().EncoderByMd5(loginPwd))) {
                 addActionError("输入的原始密码有误, 请重新输入");
             } else {
                 if (newPassword.equals(loginPwd)) {

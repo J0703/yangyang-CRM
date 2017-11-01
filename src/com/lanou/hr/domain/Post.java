@@ -9,6 +9,7 @@ public class Post {
     private String postId;
     private String postName;
     private Department department;
+
     public Post() {
     }
 

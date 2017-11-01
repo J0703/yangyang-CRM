@@ -17,6 +17,7 @@ public interface StaffService {
     Staff findSingle(Map<String, Object> params);
 
     List<Staff> find(String hql, Map<String, Object> params);
+
     void update(Staff staff);
 
     void save(Staff staff);
@@ -27,6 +28,7 @@ public interface StaffService {
 
     /**
      * 高级查询
+     *
      * @param params 参数
      * @return
      */

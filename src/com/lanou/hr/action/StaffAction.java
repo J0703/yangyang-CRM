@@ -13,8 +13,13 @@ import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import sun.misc.BASE64Encoder;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +31,7 @@ import java.util.Map;
  * Created by dllo on 17/10/25.
  */
 @Controller("staffAction")
+@Scope("prototype")
 public class StaffAction extends ActionSupport implements ModelDriven<Staff> {
     @Autowired
     @Qualifier("staffService")
@@ -58,14 +64,6 @@ public class StaffAction extends ActionSupport implements ModelDriven<Staff> {
         }
         PageBean<Staff> pageBean = staffService.findByPage(pageNum, pageSize);
         ActionContext.getContext().put("pageBean", pageBean);
-        return SUCCESS;
-    }
-
-    /**
-     * 获取员工集合
-     */
-    public String findStaff() {
-        staffs = staffService.findAll();
         return SUCCESS;
     }
 
@@ -124,12 +122,38 @@ public class StaffAction extends ActionSupport implements ModelDriven<Staff> {
     public String save() {
         Date date = staffDriven.getOnDutyDate();
         Post post = postService.get(Post.class, postId);
-        Staff staff1 = new Staff(staffDriven.getLoginName(), staffDriven.getLoginPwd(),
+        String loginPwd1 = EncoderByMd5(staffDriven.getLoginPwd());
+        Staff staff1 = new Staff(staffDriven.getLoginName(), loginPwd1,
                 staffDriven.getStaffName(), staffDriven.getGender(), date);
         staff1.setPost(post);
         staff1.setDepartment(post.getDepartment());
+
         staffService.save(staff1);
         return SUCCESS;
+    }
+
+    /**
+     * 加密
+     *
+     * @param str 要加密的参数
+     * @return 加密后的参数
+     */
+    public String EncoderByMd5(String str) {
+        MessageDigest md5 = null;
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        BASE64Encoder base64Encoder = new BASE64Encoder();
+
+        String newStr = null;
+        try {
+            newStr = base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return newStr;
     }
 
     /**

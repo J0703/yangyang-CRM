@@ -1,5 +1,7 @@
 package com.lanou.hr.dao;
 
+import com.lanou.refer.domain.Refer;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.Map;
 public interface BaseDao<T> {
     /**
      * 查询所有
+     *
      * @param hql 查询语句
      * @return 结果集
      */
@@ -17,7 +20,8 @@ public interface BaseDao<T> {
 
     /**
      * 条件查询
-     * @param hql 查询语句
+     *
+     * @param hql    查询语句
      * @param params 参数
      * @return 结果集
      */
@@ -25,7 +29,8 @@ public interface BaseDao<T> {
 
     /**
      * 条件查询
-     * @param hql 查询语句
+     *
+     * @param hql    查询语句
      * @param params 参数
      * @return 单个对象
      */
@@ -33,7 +38,8 @@ public interface BaseDao<T> {
 
     /**
      * 通过id获取
-     * @param c Class
+     *
+     * @param c  Class
      * @param id 序列化id
      * @return 单个对象
      */
@@ -41,18 +47,26 @@ public interface BaseDao<T> {
 
     /**
      * 更新
+     *
      * @param t 更新对象
      */
     void update(T t);
 
     /**
      * 保存
+     *
      * @param t 保存对象
      */
     void save(T t);
 
     int getTotalRecord(String hql);
 
-    List<T> findALL(String hql,int startIndex, int pageSize);
+    List<T> findALL(String hql, int startIndex, int pageSize);
+
+    int getTotalRecordT(String hql, List<Object> params);
+
+    List<T> findByCD(String hql1, List<Object> params, int startIndex, int pageSize);
+
+    List<T> findByQQ(String s, Object[] objects);
 
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.lanou.career_plan.domain.Student" table="crm_student">
+        <id name="studentId">
+            <generator class="uuid"/>
+        </id>
+        <property name="name"/>
+        <property name="telephone"/>
+        <property name="identity"/>
+        <property name="qq"/>
+        <property name="gender"/>
+        <property name="mustTuition"/>
+        <property name="actualTuition"/>
+        <property name="email"/>
+        <property name="school"/>
+        <property name="education"/>
+        <property name="professional"/>
+        <property name="identityAddress"/>
+        <property name="address"/>
+        <property name="remark"/>
+        <property name="homeTelephone"/>
+        <property name="homeContact"/>
+        <property name="status"/>
+        <many-to-one name="classes"
+                     class="com.lanou.teach.domain.Classes"
+                     column="classId"
+                     cascade="none"
+                     lazy="false"/>
+        <many-to-one name="refer"
+                     class="com.lanou.refer.domain.Refer"
+                     column="referId"
+                     cascade="none"
+                     lazy="false"
+                     unique="true"/>
+    </class>
+</hibernate-mapping>

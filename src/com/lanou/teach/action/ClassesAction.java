@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import sun.misc.BASE64Encoder;
 
@@ -29,6 +30,7 @@ import java.util.Map;
  * Created by dllo on 17/10/27.
  */
 @Controller("classesAction")
+@Scope("prototype")
 public class ClassesAction extends ActionSupport implements ModelDriven<Classes> {
     @Autowired
     @Qualifier("classesService")
@@ -53,8 +55,6 @@ public class ClassesAction extends ActionSupport implements ModelDriven<Classes>
 
     /**
      * 分页查询
-     *
-     * @return
      */
     public String findByPage() {
         if (pageNum == 0) {
@@ -67,8 +67,6 @@ public class ClassesAction extends ActionSupport implements ModelDriven<Classes>
 
     /**
      * 查询所有
-     *
-     * @return
      */
     public String findAll() {
         classesList = classesService.findAll();
@@ -77,8 +75,6 @@ public class ClassesAction extends ActionSupport implements ModelDriven<Classes>
 
     /**
      * 查询单个对象
-     *
-     * @return
      */
     public String findSingle() {
         classes = classesService.findSingle(Classes.class, classesDriven.getClassId());
@@ -86,16 +82,25 @@ public class ClassesAction extends ActionSupport implements ModelDriven<Classes>
         return SUCCESS;
     }
 
+    /**
+     * 获取班级信息
+     */
     public String showClasses(){
         classes = classesService.findSingle(Classes.class, classesDriven.getClassId());
         return SUCCESS;
     }
 
+    /**
+     * 获取班级信息
+     */
     public String findByUpload() {
         classes = classesService.findSingle(Classes.class, classesDriven.getClassId());
         return SUCCESS;
     }
 
+    /**
+     * 上传
+     */
     public String upload() {
         String path = ServletActionContext.getServletContext().getRealPath("classable");
         File destDirectory = new File(path);
@@ -116,6 +121,9 @@ public class ClassesAction extends ActionSupport implements ModelDriven<Classes>
         return SUCCESS;
     }
 
+    /**
+     * 下载
+     */
     public String download(){
         String dirPath = ServletActionContext.getServletContext().getRealPath("classable");
         File file = new File(dirPath, filename);
@@ -129,6 +137,9 @@ public class ClassesAction extends ActionSupport implements ModelDriven<Classes>
         return SUCCESS;
     }
 
+    /**
+     * 通过课程查班级
+     */
     public String findByCourse(){
         Map<String, Object> params = new HashMap<>();
         params.put("courseTypeId",courseTypeId);
@@ -138,8 +149,6 @@ public class ClassesAction extends ActionSupport implements ModelDriven<Classes>
 
     /**
      * 添加或修改
-     *
-     * @return
      */
     public String addOrEdit() {
         CourseType courseType = courseTypeService.findSingle(CourseType.class, courseTypeId);

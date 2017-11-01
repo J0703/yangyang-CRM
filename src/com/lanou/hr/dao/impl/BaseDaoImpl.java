@@ -110,6 +110,11 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
         session.save(t);
     }
 
+    /**
+     * 分页查询获取数据总记录条数
+     *
+     * @param hql
+     */
     @Override
     public int getTotalRecord(String hql) {
         List<Long> find = (List<Long>) this.getHibernateTemplate().find(hql);
@@ -118,8 +123,56 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
         }
         return 0;
     }
+
+    /**
+     * 分页查询
+     *
+     * @param hql        查询语句
+     * @param startIndex 初始下标
+     * @param pageSize   查询个数
+     */
     @Override
     public List<T> findALL(String hql, int startIndex, int pageSize) {
-        return this.getHibernateTemplate().execute(new PageHibernateCallback<T>(hql,startIndex, pageSize));
+        return this.getHibernateTemplate().execute(new PageHibernateCallback<T>(hql, startIndex, pageSize));
+    }
+
+    /**
+     * 高级查询查询数据总记录条数
+     *
+     * @param hql    查询语句
+     * @param params 参数
+     */
+    @Override
+    public int getTotalRecordT(String hql, List<Object> params) {
+        List<Long> find = (List<Long>) this.getHibernateTemplate().find(hql, params.toArray());
+        if (find != null) {
+            return find.get(0).intValue();
+        }
+        return 0;
+    }
+
+    /**
+     * 模糊分页查询
+     *
+     * @param hql        查询语句
+     * @param params     参数
+     * @param startIndex 初始下标
+     * @param pageSize   查询数量
+     */
+    @Override
+    public List<T> findByCD(String hql, List<Object> params, int startIndex, int pageSize) {
+        return this.getHibernateTemplate().execute(
+                new PageHibernateCallback<T>(hql, params.toArray(), startIndex, pageSize));
+    }
+
+    @Override
+    public List<T> findByQQ(String s, Object[] objects) {
+        Session session = currentSession();
+        Query query = session.createQuery(s);
+        for (int i = 0; i < objects.length; i++) {
+            query.setParameter(i,objects[i]);
+        }
+
+        return query.list();
     }
 }

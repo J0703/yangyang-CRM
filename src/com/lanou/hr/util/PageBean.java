@@ -57,6 +57,9 @@ public class PageBean<T> {
         this.totalRecord = totalRecord;
     }
 
+    /**
+     * 获取初始下标
+     */
     public int getStartIndex() {
         int startIndex = (pageNum - 1) * pageSize;
         return startIndex;
@@ -66,6 +69,9 @@ public class PageBean<T> {
         this.startIndex = startIndex;
     }
 
+    /**
+     * 获取数据总条数
+     */
     public int getTotalPage() {
         int totalPage = totalRecord / pageSize;
         if (totalRecord % pageSize > 0) {

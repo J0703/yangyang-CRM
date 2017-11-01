@@ -8,11 +8,11 @@ import org.apache.struts2.ServletActionContext;
 /**
  * Created by dllo on 17/10/25.
  */
-public class hrInterceptor extends MethodFilterInterceptor {
+public class HRInterceptor extends MethodFilterInterceptor {
     @Override
     protected String doIntercept(ActionInvocation actionInvocation) throws Exception {
         Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("adminStaff");
-        if (!staff.getDepartment().getDepName().equals("人事部")){
+        if (!staff.getDepartment().getDepName().equals("人事部")) {
             return "permissions";
         }
         return actionInvocation.invoke();

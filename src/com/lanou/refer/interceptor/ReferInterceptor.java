@@ -13,7 +13,7 @@ public class ReferInterceptor extends MethodFilterInterceptor {
     @Override
     protected String doIntercept(ActionInvocation actionInvocation) throws Exception {
         Staff staff = (Staff) ServletActionContext.getRequest().getServletContext().getAttribute("adminStaff");
-        if (!staff.getDepartment().getDepName().equals("咨询部")){
+        if (!staff.getDepartment().getDepName().equals("咨询部")) {
             return "permissions";
         }
         return actionInvocation.invoke();

@@ -7,12 +7,12 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.io.Serializable;
+
 import java.util.List;
 
 
@@ -20,7 +20,8 @@ import java.util.List;
  * Created by dllo on 17/10/24.
  */
 @Controller("departmentAction")
-public class DepartmentAction extends ActionSupport implements ModelDriven<Department>{
+@Scope("prototype")
+public class DepartmentAction extends ActionSupport implements ModelDriven<Department> {
 
     @Autowired
     @Qualifier("departmentService")
@@ -30,20 +31,22 @@ public class DepartmentAction extends ActionSupport implements ModelDriven<Depar
     private Department department;
     private int pageNum;
     private int pageSize = 3;
+
     /**
      * 条件查询获得department集合
      */
-    public String findByPage(){
-        if (pageNum == 0){
+    public String findByPage() {
+        if (pageNum == 0) {
             pageNum = 1;
         }
-        PageBean<Department> pageBean = departmentService.findByPage(pageNum,pageSize);
-        ActionContext.getContext().put("pageBean",pageBean);
+        PageBean<Department> pageBean = departmentService.findByPage(pageNum, pageSize);
+        ActionContext.getContext().put("pageBean", pageBean);
         return SUCCESS;
     }
 
     /**
      * 获取所有部门
+     *
      * @return
      */
     public String findDepartment() {

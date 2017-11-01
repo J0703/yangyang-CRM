@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post get(Class<Post> tClass, Serializable id) {
-        return  postDao.get(tClass,id);
+        return postDao.get(tClass, id);
     }
 
     @Override
@@ -49,8 +49,8 @@ public class PostServiceImpl implements PostService {
         String hql = "select count(*) from Post";
         String hql1 = "from Post where 1=1";
         int totalRecord = postDao.getTotalRecord(hql);
-        PageBean<Post> pageBean = new PageBean<>(pageNum,pageSize,totalRecord);
-        List<Post> data = postDao.findALL(hql1,pageBean.getStartIndex(),pageBean.getPageSize());
+        PageBean<Post> pageBean = new PageBean<>(pageNum, pageSize, totalRecord);
+        List<Post> data = postDao.findALL(hql1, pageBean.getStartIndex(), pageBean.getPageSize());
         pageBean.setData(data);
         return pageBean;
     }

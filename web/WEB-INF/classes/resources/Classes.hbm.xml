@@ -23,6 +23,6 @@
         <property name="remark"/>
         <property name="uploadPath"/>
         <property name="uploadFileName"/>
-        <property name="uploadTime" type="java.util.Date"/>
+        <property name="uploadTime" type="date"/>
     </class>
 </hibernate-mapping>

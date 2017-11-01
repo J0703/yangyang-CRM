@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public interface PostService {
 
-
-
     List<Post> find(Map<String, Object> params);
 
     void update(Post post);

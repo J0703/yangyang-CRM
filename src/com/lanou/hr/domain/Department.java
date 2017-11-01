@@ -11,9 +11,9 @@ public class Department {
     private String depId;
     private String depName;
     private Set<Post> posts;
+
     public Department() {
     }
-
 
 
     public Department(String depId, String depName) {

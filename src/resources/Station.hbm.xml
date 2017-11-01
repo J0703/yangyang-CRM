@@ -1,0 +1,35 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.lanou.career_plan.domain.Station" table="crm_station">
+        <id name="stationId">
+            <generator class="uuid"/>
+        </id>
+        <many-to-one name="student"
+                     class="com.lanou.career_plan.domain.Student"
+                     column="studentId"
+                     cascade="none"
+                     lazy="false"
+                     unique="true"/>
+        <property name="flag"/>
+        <many-to-one name="staff"
+                     class="com.lanou.hr.domain.Staff"
+                     column="staffId"
+                     cascade="none"
+                     lazy="false"/>
+        <property name="createDate" type="java.util.Date"/>
+        <many-to-one name="beforeClass"
+                     class="com.lanou.teach.domain.Classes"
+                     column="beforeClassId"
+                     cascade="none"
+                     lazy="false"/>
+        <many-to-one name="afterClass"
+                     class="com.lanou.teach.domain.Classes"
+                     column="afterClassId"
+                     cascade="none"
+                     lazy="false"/>
+
+    </class>
+</hibernate-mapping>

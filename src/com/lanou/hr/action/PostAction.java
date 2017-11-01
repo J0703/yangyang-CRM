@@ -11,6 +11,7 @@ import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.util.HashMap;
@@ -21,7 +22,8 @@ import java.util.Map;
  * Created by dllo on 17/10/25.
  */
 @Controller("postAction")
-public class PostAction extends ActionSupport implements ModelDriven<Post>{
+@Scope("prototype")
+public class PostAction extends ActionSupport implements ModelDriven<Post> {
 
     @Autowired
     @Qualifier("postService")
@@ -39,17 +41,19 @@ public class PostAction extends ActionSupport implements ModelDriven<Post>{
 
     private int pageNum;
     private int pageSize = 3;
+
     /**
      * 分页查询获得post集合
      */
-    public String findByPage(){
-        if (pageNum == 0){
+    public String findByPage() {
+        if (pageNum == 0) {
             pageNum = 1;
         }
-        PageBean<Post> pageBean = postService.findByPage(pageNum,pageSize);
-        ActionContext.getContext().put("pageBean",pageBean);
+        PageBean<Post> pageBean = postService.findByPage(pageNum, pageSize);
+        ActionContext.getContext().put("pageBean", pageBean);
         return SUCCESS;
     }
+
     /**
      * 通过部门id获取职务集合
      */

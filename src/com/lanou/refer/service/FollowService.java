@@ -13,4 +13,6 @@ public interface FollowService {
     Follow get(Class<Follow> followClass, String followId);
 
     void update(Follow follow1);
+
+    Follow findByReferId(String referId);
 }
