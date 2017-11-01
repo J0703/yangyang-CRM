@@ -45,20 +45,24 @@
         <tr>
             <td width="10%">课程类别：</td>
             <td><input type="text" name="courseName" size="30" value=""/></td>
+            <td>(课程类别的名称)</td>
         </tr>
         <tr>
             <td>课程简介：</td>
             <td><input type="text" name="remark" size="30" value=""/></td>
+            <td>(课程简介介绍)</td>
         </tr>
         <tr>
             <td>总学时：</td>
             <td><input type="text" name="totalStart" size="12" value=""/> 至 <input type="text" name="totalEnd" size="12"
                                                                                    value=""/></td>
+            <td>(单位(小时) 例如: 500 ~ 1000)</td>
         </tr>
         <tr>
             <td>课程费用：</td>
             <td><input type="text" name="lessonCostStart" size="12" value=""/> 至 <input type="text" name="lessonCostEnd"
                                                                                         size="12" value=""/></td>
+            <td>(单位(元) 例如: 5000 ~ 10000)</td>
         </tr>
     </table>
 </form>

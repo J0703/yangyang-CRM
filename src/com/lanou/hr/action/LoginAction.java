@@ -72,18 +72,21 @@ public class LoginAction extends ActionSupport {
         if (StringUtils.isBlank(newPassword) || StringUtils.isBlank(reNewPassword) || StringUtils.isBlank(loginPwd)) {
             addActionError("输入的密码不能为空");
         } else {
-            if (!staff.getLoginPwd().equals(new StaffAction().EncoderByMd5(loginPwd))) {
-                addActionError("输入的原始密码有误, 请重新输入");
+            if (newPassword.length() < 5 || reNewPassword.length() < 5) {
+                addActionError("密码长度不小于6位,请重新输入");
             } else {
-                if (newPassword.equals(loginPwd)) {
-                    addActionError("不能与原密码重复, 请重新输入");
+                if (!staff.getLoginPwd().equals(new StaffAction().EncoderByMd5(loginPwd))) {
+                    addActionError("输入的原始密码有误, 请重新输入");
+                } else {
+                    if (newPassword.equals(loginPwd)) {
+                        addActionError("不能与原密码重复, 请重新输入");
+                    }
+                }
+                if (!newPassword.equals(reNewPassword)) {
+                    addActionError("两次输入的密码不一致,请重新输入");
                 }
             }
-            if (!newPassword.equals(reNewPassword)) {
-                addActionError("两次输入的密码不一致,请重新输入");
-            }
         }
-
     }
 
     /**

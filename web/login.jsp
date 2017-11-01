@@ -57,10 +57,7 @@
                     <br/>
                     <br/>
                     <font color="#ff0000">
-                        <s:fielderror/>
-                        <s:actionerror/>
                         ${msg}
-                        <s:property value="#session.msg"/>
                     </font>
                     <br/>
                     用户名：<input type="text" name="loginName" class="msg"/><br/><br/>

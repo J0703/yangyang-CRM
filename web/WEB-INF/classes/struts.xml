@@ -19,7 +19,7 @@
 
             <interceptor-stack name="myInterceptorStack">
                 <interceptor-ref name="hrInterceptor">
-                    <param name="excludeMethods">login,findByPage,find,findDepartment,showPost</param>
+                    <param name="excludeMethods">login,findByPage,find,findDepartment,showPost,updatePwd</param>
 
                 </interceptor-ref>
                 <interceptor-ref name="defaultStack"/>
