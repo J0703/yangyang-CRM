@@ -1,7 +1,7 @@
 package com.lanou.refer.action;
 
 import com.lanou.hr.domain.Staff;
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import com.lanou.refer.domain.Follow;
 import com.lanou.refer.domain.Refer;
 import com.lanou.refer.service.FollowService;

@@ -1,9 +1,8 @@
 package com.lanou.teach.service.impl;
 
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import com.lanou.teach.dao.ClassesDao;
 import com.lanou.teach.domain.Classes;
-import com.lanou.teach.domain.CourseType;
 import com.lanou.teach.service.ClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

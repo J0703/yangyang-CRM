@@ -4,7 +4,7 @@ package com.lanou.hr.service.impl;
 import com.lanou.hr.dao.PostDao;
 import com.lanou.hr.domain.Post;
 import com.lanou.hr.service.PostService;
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

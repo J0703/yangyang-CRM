@@ -1,6 +1,6 @@
 package com.lanou.teach.action;
 
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import com.lanou.teach.domain.Classes;
 import com.lanou.teach.domain.CourseType;
 import com.lanou.teach.service.ClassesService;
@@ -133,7 +133,6 @@ public class ClassesAction extends ActionSupport implements ModelDriven<Classes>
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(file.toString());
         return SUCCESS;
     }
 

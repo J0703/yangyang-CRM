@@ -1,6 +1,6 @@
 package com.lanou.refer.service.impl;
 
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import com.lanou.refer.dao.ReferDao;
 import com.lanou.refer.domain.Refer;
 import com.lanou.refer.service.ReferService;

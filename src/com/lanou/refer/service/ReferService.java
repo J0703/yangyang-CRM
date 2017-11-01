@@ -1,6 +1,6 @@
 package com.lanou.refer.service;
 
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import com.lanou.refer.domain.Refer;
 
 import java.util.List;

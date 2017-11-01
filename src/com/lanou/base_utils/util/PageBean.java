@@ -1,4 +1,4 @@
-package com.lanou.hr.util;
+package com.lanou.base_utils.util;
 
 import java.util.List;
 

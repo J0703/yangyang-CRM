@@ -1,6 +1,6 @@
 package com.lanou.teach.service.impl;
 
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import com.lanou.teach.dao.CourseTypeDao;
 import com.lanou.teach.domain.CourseType;
 import com.lanou.teach.service.CourseTypeService;

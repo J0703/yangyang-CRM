@@ -1,5 +1,6 @@
 package com.lanou.hr.dao.impl;
 
+import com.lanou.base_utils.dao.impl.BaseDaoImpl;
 import com.lanou.hr.dao.DepartmentDao;
 import com.lanou.hr.domain.Department;
 

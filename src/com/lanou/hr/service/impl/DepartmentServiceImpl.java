@@ -4,7 +4,7 @@ import com.lanou.hr.dao.DepartmentDao;
 import com.lanou.hr.domain.Department;
 
 import com.lanou.hr.service.DepartmentService;
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

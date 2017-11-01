@@ -1,7 +1,7 @@
 package com.lanou.teach.action;
 
 
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import com.lanou.teach.domain.CourseType;
 import com.lanou.teach.service.CourseTypeService;
 import com.opensymphony.xwork2.ActionContext;

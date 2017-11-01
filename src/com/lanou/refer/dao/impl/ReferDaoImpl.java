@@ -1,6 +1,6 @@
 package com.lanou.refer.dao.impl;
 
-import com.lanou.hr.dao.impl.BaseDaoImpl;
+import com.lanou.base_utils.dao.impl.BaseDaoImpl;
 
 import com.lanou.refer.dao.ReferDao;
 import com.lanou.refer.domain.Refer;

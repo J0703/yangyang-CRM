@@ -6,7 +6,7 @@ import com.lanou.hr.domain.Staff;
 import com.lanou.hr.service.DepartmentService;
 import com.lanou.hr.service.PostService;
 import com.lanou.hr.service.StaffService;
-import com.lanou.hr.util.PageBean;
+import com.lanou.base_utils.util.PageBean;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
