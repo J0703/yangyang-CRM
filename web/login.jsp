@@ -57,6 +57,7 @@
                     <br/>
                     <br/>
                     <font color="#ff0000">
+                        <s:actionerror/>
                         ${msg}
                     </font>
                     <br/>

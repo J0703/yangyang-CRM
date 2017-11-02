@@ -54,6 +54,7 @@ public class StaffAction extends ActionSupport implements ModelDriven<Staff> {
     private int pageNum;
     private int pageSize = 3;
 
+
     /**
      * 获得staff集合
      */

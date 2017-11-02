@@ -79,7 +79,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="baseDao" class="com.lanou.hr.dao.impl.BaseDaoImpl">
+    <bean id="baseDao" class="com.lanou.base_utils.dao.impl.BaseDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     <bean id="classesDao" class="com.lanou.teach.dao.impl.ClassesDaoImpl">
